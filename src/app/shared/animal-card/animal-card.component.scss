@@ -1,0 +1,18 @@
+.animal {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  &__name {
+    width: 100%;
+    aspect-ratio: 207 / 190;
+    object-fit: cover;
+  }
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &--food {
+      width: 25px;
+    }
+  }
+}

@@ -3,14 +3,14 @@ import { Store } from '@ngrx/store';
 import { selectSliders } from '../../store/selectors/animals.selectors';
 import { getAnimalsData } from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
-import { JsonPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IAnimal } from '../../core/models/animals.model';
+import { AnimalCardComponent } from '../../shared/animal-card/animal-card.component';
 
 @Component({
   selector: 'app-animal-farm',
   standalone: true,
-  imports: [PushPipe, JsonPipe],
+  imports: [PushPipe, AnimalCardComponent],
   templateUrl: './animal-farm.component.html',
   styleUrl: './animal-farm.component.scss',
 })

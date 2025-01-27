@@ -1,0 +1,17 @@
+<div class="animal">
+  <img
+    [src]="'animals/' + name() + '.png'"
+    [alt]="name()"
+    class="animal__name"
+  />
+  <div class="animal__info">
+    <span class="animal__info--thanksCout">
+      thanksCout : {{ thanksCount() }}
+    </span>
+    <img
+      [src]="'food/' + food() + '.png'"
+      [alt]="name()"
+      class="animal__info--food"
+    />
+  </div>
+</div>

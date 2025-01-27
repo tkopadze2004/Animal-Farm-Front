@@ -1,3 +1,7 @@
 @if (animals$ | ngrxPush; as animal) { @for (item of animal; track item) {
-<pre>{{ item | json }} </pre>
+<app-animal-card
+  [thanksCount]="item.thanksCount"
+  [name]="item.name"
+  [food]="item.foodType"
+/>
 } }
