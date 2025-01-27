@@ -7,6 +7,7 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { AnimalsReducer } from './store/reducers/animals.reducers';
 import { AnimalsEffect } from './store/effects/animals.effects';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore({ animals: AnimalsReducer }),
     provideEffects(AnimalsEffect),
+    provideAnimations()
   ],
 };
