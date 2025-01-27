@@ -1,0 +1,3 @@
+@if (animals$ | ngrxPush; as animal) { @for (item of animal; track item) {
+<pre>{{ item | json }} </pre>
+} }
