@@ -1,0 +1,9 @@
+.cont {
+  display: flex;
+  justify-content: space-between;
+  &__animals {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+}
