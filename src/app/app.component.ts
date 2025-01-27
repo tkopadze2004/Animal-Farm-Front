@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AnimalFarmComponent } from './pages/animal-farm/animal-farm.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnimalFarmComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

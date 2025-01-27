@@ -10,4 +10,8 @@ export class AnimalsService extends ApiService {
   getAnimals(): Observable<IAnimal[]> {
     return this.get<IAnimal[]>(`animals`);
   }
+
+  feedAnimal(id: string): Observable<any> {
+    return this.put<any>(`animals/${id}/feed`);
+  }
 }

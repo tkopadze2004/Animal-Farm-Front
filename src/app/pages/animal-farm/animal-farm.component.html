@@ -1,4 +1,4 @@
-@if (animals$ | ngrxPush; as animal) {
+@if (animals$| ngrxPush; as animal) {
 <div class="cont">
   <div class="cont__animals">
     @for (item of animal.slice(0,3); track item) {
@@ -6,19 +6,22 @@
       [thanksCount]="item.thanksCount"
       [name]="item.name"
       [food]="item.foodType"
+      [id]="item._id"
     />
     }
   </div>
-  <!-- <div>gori</div> -->
+  <div>gori</div>
+
   <div class="cont__animals">
     @for (item of animal.slice(3,6); track item) {
     <app-animal-card
       [thanksCount]="item.thanksCount"
       [name]="item.name"
       [food]="item.foodType"
+      [id]="item._id"
     />
     }
   </div>
 </div>
 
-}
+} @if (success$|ngrxPush;as ss) {}

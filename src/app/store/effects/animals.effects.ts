@@ -23,4 +23,22 @@ export class AnimalsEffect {
       )
     )
   );
+  feedAnimal$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(animalActions.feedAnimal),
+      switchMap((action) =>
+        this.animalsService.feedAnimal(action.id).pipe(
+          map((response) =>
+            animalActions.feedAnimalSuccess({
+              thanksCount: response.thanksCount,
+              id: action.id,
+            })
+          ),
+          catchError((error) =>
+            of(animalActions.feedAnimalDataFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
 }

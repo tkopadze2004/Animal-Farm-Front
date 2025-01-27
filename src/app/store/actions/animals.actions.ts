@@ -11,3 +11,18 @@ export const getAnimalsDataFailure = createAction(
   AnimalsActionsTypes.GET_ANIMALS_FAILURE,
   props<{ error: string }>()
 );
+////////////////////////////////////////////////////////////////////////////
+
+export const feedAnimal = createAction(
+  AnimalsActionsTypes.FEED_ANIMAL,
+  props<{ id: string }>()
+);
+export const feedAnimalSuccess = createAction(
+  AnimalsActionsTypes.FEED_ANIMAL_SUCCESS,
+  props<{ thanksCount: number; id: string }>()
+);
+
+export const feedAnimalDataFailure = createAction(
+  AnimalsActionsTypes.FEED_ANIMAL_FAILURE,
+  props<{ error: string }>()
+);
