@@ -25,4 +25,5 @@ export class AnimalCardComponent {
   public feedAnimal(): void {
     this.store.dispatch(feedAnimal({ id: this.id() }));
   }
+  
 }

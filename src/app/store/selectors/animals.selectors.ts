@@ -1,18 +1,23 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IAnimalsState } from '../states/animals.states';
 
-export const selectSliderState =
+export const selectAnimalsState =
   createFeatureSelector<IAnimalsState>('animals');
 
 export const selectSliders = createSelector(
-  selectSliderState,
+  selectAnimalsState,
   (state: IAnimalsState) => state.animals
 );
 
 export const selectThanksCount = createSelector(
-  selectSliderState,
-  (state: IAnimalsState) => {
-    console.log('Thanks count:', state.thanksCount);
-    return state.thanksCount;
-  }
+  selectAnimalsState,
+  (state: IAnimalsState) => ({
+    thanksCount: state.thanksCount,
+    pigStatus: state.pigStatus,
+  })
+);
+
+export const selectLoading = createSelector(
+  selectAnimalsState,
+  (state: IAnimalsState) => state.loading
 );

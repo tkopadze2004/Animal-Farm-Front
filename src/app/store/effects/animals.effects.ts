@@ -32,6 +32,7 @@ export class AnimalsEffect {
             animalActions.feedAnimalSuccess({
               thanksCount: response.thanksCount,
               id: action.id,
+              pigStatus: response.pigStatus,
             })
           ),
           catchError((error) =>

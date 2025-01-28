@@ -8,4 +8,5 @@ export interface IAnimal {
 
 export interface IFeedAnimalRes {
   thanksCount: number;
+  pigStatus:string
 }

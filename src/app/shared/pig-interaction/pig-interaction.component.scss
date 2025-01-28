@@ -1,10 +1,24 @@
 :host {
   .pig {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
     img {
       width: 400px;
       border-radius: 20px;
+      transition: transform 0.9s ease, opacity 0.9s ease;
+      backface-visibility: hidden;
     }
   }
+
+
+
+  .pig img:hover {
+    transform: scale(1.05);
+  }
+
+
 
   @media (max-width: 1024px) {
     .pig {

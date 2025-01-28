@@ -18,7 +18,7 @@ export class ApiService {
       params: httpparams,
     });
   }
-  post<T>(path: string, body: any): Observable<T> {
+  post<T>(path: string, body?: any): Observable<T> {
     return this.http.post<T>(`${this.apiUrl}${path}`, body);
   }
 

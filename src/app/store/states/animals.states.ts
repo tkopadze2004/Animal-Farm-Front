@@ -5,4 +5,5 @@ export interface IAnimalsState {
   thanksCount?: number;
   loading: boolean;
   error: string | null;
+  pigStatus?:string|null
 }
