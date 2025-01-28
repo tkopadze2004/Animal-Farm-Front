@@ -6,4 +6,11 @@
     flex-direction: column;
     gap: 30px;
   }
+  &__napoleon {
+    display: flex;
+    align-items: center;
+    img {
+      width: 400px;
+    }
+  }
 }
