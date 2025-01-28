@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/animal-farm-front/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
