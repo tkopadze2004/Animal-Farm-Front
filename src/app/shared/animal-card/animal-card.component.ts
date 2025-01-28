@@ -1,4 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { feedAnimal } from '../../store/actions/animals.actions';
 
@@ -8,6 +13,7 @@ import { feedAnimal } from '../../store/actions/animals.actions';
   imports: [],
   templateUrl: './animal-card.component.html',
   styleUrl: './animal-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimalCardComponent {
   private readonly store = inject(Store);

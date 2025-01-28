@@ -10,7 +10,9 @@
     />
     }
   </div>
-  <div class="cont__napoleon"><img src="animals/napoleon-smile.png" alt="" /></div>
+  <div class="cont__napoleon">
+    <app-pig-interaction />
+  </div>
   <div class="cont__animals">
     @for (item of animal.slice(3,6); track item) {
     <app-animal-card

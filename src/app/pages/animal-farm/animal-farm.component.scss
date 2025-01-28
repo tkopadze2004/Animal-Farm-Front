@@ -9,8 +9,21 @@
   &__napoleon {
     display: flex;
     align-items: center;
-    img {
-      width: 400px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cont {
+    &__animals {
+      gap: 65px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cont {
+    &__animals {
+      gap: 60px;
     }
   }
 }

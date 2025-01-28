@@ -27,3 +27,43 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .animal {
+    width: 160px;
+    font-size: 14px;
+
+    &__info {
+      &--thanksCout {
+        &-value {
+          font-weight: bolder;
+          font-size: 14px;
+        }
+      }
+      &--food {
+        cursor: pointer;
+        width: 18px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .animal {
+    width: 95px;
+    font-size: 10px;
+
+    &__info {
+      &--thanksCout {
+        &-value {
+          font-weight: bolder;
+          font-size: 10px;
+        }
+      }
+      &--food {
+        cursor: pointer;
+        width: 12px;
+      }
+    }
+  }
+}

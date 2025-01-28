@@ -1,0 +1,24 @@
+:host {
+  .pig {
+    img {
+      width: 400px;
+      border-radius: 20px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .pig {
+      img {
+        width: 300px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pig {
+      img {
+        width: 150px;
+      }
+    }
+  }
+}

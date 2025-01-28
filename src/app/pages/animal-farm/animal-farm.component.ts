@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   selectSliders,
@@ -10,13 +15,20 @@ import { Observable, tap } from 'rxjs';
 import { IAnimal } from '../../core/models/animals.model';
 import { AnimalCardComponent } from '../../shared/animal-card/animal-card.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PigInteractionComponent } from '../../shared/pig-interaction/pig-interaction.component';
 
 @Component({
   selector: 'app-animal-farm',
   standalone: true,
-  imports: [AnimalCardComponent, PushPipe, MatSnackBarModule],
+  imports: [
+    AnimalCardComponent,
+    PushPipe,
+    MatSnackBarModule,
+    PigInteractionComponent,
+  ],
   templateUrl: './animal-farm.component.html',
   styleUrl: './animal-farm.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimalFarmComponent implements OnInit {
   private readonly store: Store = inject(Store);
@@ -34,7 +46,7 @@ export class AnimalFarmComponent implements OnInit {
         if (thanksCount == 0) {
           return;
         }
-        this.openSnackBar('Thanks!');
+        this.openSnackBar('Thanks to our leader!');
       })
     );
 
