@@ -1,5 +1,44 @@
 // /* You can add global styles to this file, and also import other style files */
-// .test {
-//   bottom: 0;
-//   left: 50%;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: rgb(61, 17, 17);
+  font-family: system-ui, sans-serif;
+
+}
+
+.test {
+  position: absolute;
+  top: 0;
+  right: 47%;
+  background: red;
+  font-size: 19px;
+  text-align: center;
+  max-width: 100px;
+  border-radius: 7px;
+  max-height: 40px;
+  color: rgb(213, 213, 213);
+  font-weight: 700;
+}
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  box-shadow: none !important;
+}
+// .snackbar {
+//   color: white;
+//   font-size: 16px;
+//   text-align: center;
+//   max-width: 400px;
+//   border-radius: 7px;
+// }
+
+// .mat-mdc-button {
+//   .mat-mdc-button-persistent-ripple::before {
+//     position: static;
+//     display: none;
+//   }
+// }
+// #cdk-overlay-0 {
+//   position: inherit !important;
 // }

@@ -34,12 +34,12 @@ export class AnimalFarmComponent implements OnInit {
         if (thanksCount == 0) {
           return;
         }
-        this.openSnackBar('Thanks!', 'Close');
+        this.openSnackBar('Thanks!');
       })
     );
 
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
+  openSnackBar(message: string) {
+    this.snackBar.open(message, '', {
       duration: 5000,
       panelClass: [`test`],
     });
