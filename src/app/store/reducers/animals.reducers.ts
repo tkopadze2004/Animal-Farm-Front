@@ -14,7 +14,7 @@ export const AnimalsReducer = createReducer(
   on(animalActions.getAnimalsData, (state) => ({
     ...state,
     loading: true,
-    isError: null,
+    error: null,
   })),
   on(animalActions.getAnimalsDataSuccess, (state, { animals }) => ({
     ...state,
@@ -28,20 +28,17 @@ export const AnimalsReducer = createReducer(
     error,
   })),
 
-  ///////////////////////////////////////////////////
-  ///////////////////////////////////////////////////
-
   on(animalActions.feedAnimal, (state, { id }) => ({
     ...state,
     loading: true,
-    isError: null,
+    error: null,
   })),
   on(animalActions.feedAnimalSuccess, (state, { thanksCount, id }) => ({
     ...state,
-    //vanaxleb thanks count
     animals: state.animals?.map((animal) =>
       animal._id === id ? { ...animal, thanksCount } : animal
     ),
+
     loading: false,
     error: null,
     thanksCount: thanksCount,
