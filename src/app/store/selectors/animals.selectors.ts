@@ -4,7 +4,7 @@ import { IAnimalsState } from '../states/animals.states';
 export const selectAnimalsState =
   createFeatureSelector<IAnimalsState>('animals');
 
-export const selectSliders = createSelector(
+export const selectAnimals = createSelector(
   selectAnimalsState,
   (state: IAnimalsState) => state.animals
 );

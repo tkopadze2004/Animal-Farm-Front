@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  selectSliders,
+  selectAnimals,
   selectThanksCount,
 } from '../../store/selectors/animals.selectors';
 import { getAnimalsData } from '../../store/actions/animals.actions';
@@ -18,6 +18,9 @@ import { AnimalCardComponent } from '../../shared/animal-card/animal-card.compon
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PigInteractionComponent } from '../../shared/pig-interaction/pig-interaction.component';
 import { AnimalsService } from '../../services/animals.service';
+import { PigStatusService } from '../../services/pig-status.service';
+import { selectPigStatus } from '../../store/selectors/pig-selector';
+import { getPigStatus } from '../../store/actions/pig.actions';
 
 @Component({
   selector: 'app-animal-farm',
@@ -34,22 +37,17 @@ import { AnimalsService } from '../../services/animals.service';
 })
 export class AnimalFarmComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-
   private readonly store: Store = inject(Store);
   public animals$: Observable<IAnimal[] | undefined> =
-    this.store.select(selectSliders);
+    this.store.select(selectAnimals);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
-  pigStatus: string | null | undefined | unknown = '';
+  public pigStatus: string | null | undefined | unknown = '';
   public ngOnInit(): void {
     this.store.dispatch(getAnimalsData());
   }
 
-  sharedse = inject(AnimalsService);
-
   public success$ = this.store.select(selectThanksCount).pipe(
     tap((response) => {
-      console.log('Store response:', response);
-
       const { thanksCount, pigStatus } = response;
 
       if (thanksCount === undefined || thanksCount === 0) {
@@ -70,15 +68,15 @@ export class AnimalFarmComponent implements OnInit {
       }
 
       return timer(2000).pipe(
-        switchMap(() =>
-          this.sharedse.stat().pipe(
+        switchMap(() => {
+          this.store.dispatch(getPigStatus());
+          return this.store.select(selectPigStatus).pipe(
             tap((newPigStatus) => {
               this.pigStatus = newPigStatus;
-              console.log('Updated pigStatus:', newPigStatus);
               this.cdr.markForCheck();
             })
-          )
-        )
+          );
+        })
       );
     })
   );

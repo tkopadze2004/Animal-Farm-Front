@@ -7,11 +7,11 @@ import { catchError, map, of, switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AnimalsEffect {
-  private readonly actions = inject(Actions);
+  private readonly actions$ = inject(Actions);
   private readonly animalsService = inject(AnimalsService);
 
   getAnimals$ = createEffect(() =>
-    this.actions.pipe(
+    this.actions$.pipe(
       ofType(animalActions.getAnimalsData),
       switchMap(() =>
         this.animalsService.getAnimals().pipe(
@@ -24,7 +24,7 @@ export class AnimalsEffect {
     )
   );
   feedAnimal$ = createEffect(() =>
-    this.actions.pipe(
+    this.actions$.pipe(
       ofType(animalActions.feedAnimal),
       switchMap((action) =>
         this.animalsService.feedAnimal(action.id).pipe(
