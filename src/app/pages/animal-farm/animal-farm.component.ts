@@ -17,8 +17,6 @@ import { IAnimal } from '../../core/models/animals.model';
 import { AnimalCardComponent } from '../../shared/animal-card/animal-card.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PigInteractionComponent } from '../../shared/pig-interaction/pig-interaction.component';
-import { AnimalsService } from '../../services/animals.service';
-import { PigStatusService } from '../../services/pig-status.service';
 import { selectPigStatus } from '../../store/selectors/pig-selector';
 import { getPigStatus } from '../../store/actions/pig.actions';
 
@@ -48,14 +46,14 @@ export class AnimalFarmComponent implements OnInit {
 
   public success$ = this.store.select(selectThanksCount).pipe(
     tap((response) => {
-      const { thanksCount, pigStatus } = response;
+      const { thanksCount, pigStatus, message } = response;
 
       if (thanksCount === undefined || thanksCount === 0) {
         return;
       }
 
       if (thanksCount > 0) {
-        this.openSnackBar('Thanks to our leader!');
+        this.openSnackBar(message!);
       }
 
       this.pigStatus = pigStatus;
@@ -83,7 +81,7 @@ export class AnimalFarmComponent implements OnInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, '', {
-      duration: 5000,
+      duration: 2000,
       panelClass: [`test`],
     });
   }

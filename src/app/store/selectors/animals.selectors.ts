@@ -14,6 +14,7 @@ export const selectThanksCount = createSelector(
   (state: IAnimalsState) => ({
     thanksCount: state.thanksCount,
     pigStatus: state.pigStatus,
+    message: state.message,
   })
 );
 

@@ -9,6 +9,7 @@ const initialState: IAnimalsState = {
   error: null,
   pigStatus: null,
   currentStatus: null,
+  message: null,
 };
 
 export const AnimalsReducer = createReducer(
@@ -37,7 +38,7 @@ export const AnimalsReducer = createReducer(
   })),
   on(
     animalActions.feedAnimalSuccess,
-    (state, { thanksCount, id, pigStatus }) => ({
+    (state, { thanksCount, id, pigStatus, message }) => ({
       ...state,
       animals: state.animals?.map((animal) =>
         animal._id === id ? { ...animal, thanksCount } : animal
@@ -47,6 +48,7 @@ export const AnimalsReducer = createReducer(
       error: null,
       thanksCount: thanksCount,
       pigStatus: pigStatus,
+      message: message,
     })
   ),
 

@@ -33,6 +33,7 @@ export class AnimalsEffect {
               thanksCount: response.thanksCount,
               id: action.id,
               pigStatus: response.pigStatus,
+              message: response.message,
             })
           ),
           catchError((error) =>

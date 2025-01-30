@@ -18,7 +18,12 @@ export const feedAnimal = createAction(
 );
 export const feedAnimalSuccess = createAction(
   AnimalsActionsTypes.FEED_ANIMAL_SUCCESS,
-  props<{ thanksCount: number; id: string; pigStatus: string }>()
+  props<{
+    thanksCount: number;
+    id: string;
+    pigStatus: string;
+    message: string;
+  }>()
 );
 
 export const feedAnimalDataFailure = createAction(

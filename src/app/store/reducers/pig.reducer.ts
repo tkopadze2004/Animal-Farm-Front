@@ -9,6 +9,7 @@ const initialState: IAnimalsState = {
   error: null,
   pigStatus: null,
   currentStatus: null,
+  message: null,
 };
 export const PigReducer = createReducer(
   initialState,

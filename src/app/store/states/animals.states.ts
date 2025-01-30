@@ -7,4 +7,5 @@ export interface IAnimalsState {
   error: string | null;
   pigStatus?: string | null;
   currentStatus: string | null;
+  message: string | null;
 }

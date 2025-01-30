@@ -1,38 +1,37 @@
-:host {
-  .pig {
-    display: flex;
+.pig {
+  position: relative;
+  display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
-    img {
-      width: 400px;
-      border-radius: 20px;
-      transition: transform 0.9s ease, opacity 0.9s ease;
-      backface-visibility: hidden;
-    }
+  width: 400px; /* Adjust as needed */
+  height: 400px; /* Adjust as needed */
+}
+
+.pig img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.pig img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .pig {
+    width: 300px;
+    height: 300px;
   }
+}
 
-
-
-  .pig img:hover {
-    transform: scale(1.05);
-  }
-
-
-
-  @media (max-width: 1024px) {
-    .pig {
-      img {
-        width: 300px;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .pig {
-      img {
-        width: 150px;
-      }
-    }
+@media (max-width: 768px) {
+  .pig {
+    width: 150px;
+    height: 150px;
   }
 }

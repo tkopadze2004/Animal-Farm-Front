@@ -1,3 +1,14 @@
 <div class="pig">
-  <img [src]="pigImage" alt="napoleon" [@replaceAnimation]="pigImage" />
+  @if (pigStatus=="happy") {
+  <img src="animals/napoleon-smile.png" alt="napoleon" [@fadeAnimation] />
+
+  }@else {<img
+    src="animals/napoleon.png"
+    alt="napoleon smiling"
+    [@fadeAnimation]
+  />}
 </div>
+
+<!-- <div class="pig">
+  <img [src]="pigImage" alt="napoleon" [@replaceAnimation]="pigImage" />
+</div> -->
