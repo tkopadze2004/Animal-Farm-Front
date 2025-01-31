@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  inject,
   Input,
-  OnInit,
+  inject,
 } from '@angular/core';
 import {
   animate,
@@ -13,7 +12,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   disableFeeding,
@@ -23,10 +21,13 @@ import {
 import { selectPigStatus } from '../../../store/selectors/pig-selector';
 import { AudioService } from '../../../services/audio.service';
 import { PigStatusService } from '../../../services/pig-status.service';
+import { map, switchMap, tap, take, Observable, of } from 'rxjs';
+import { PushPipe } from '@ngrx/component';
 
 @Component({
   selector: 'app-pig-interaction',
   standalone: true,
+  imports: [PushPipe],
   templateUrl: './pig-interaction.component.html',
   styleUrls: ['./pig-interaction.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,56 +43,65 @@ import { PigStatusService } from '../../../services/pig-status.service';
 })
 export class PigInteractionComponent {
   @Input() pigStatus: string | null = null;
-  private readonly store: Store = inject(Store);
-  public isPlaying: boolean = false;
+
+  private readonly store = inject(Store);
   private readonly pigStatusService = inject(PigStatusService);
   private readonly audioService = inject(AudioService);
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  public isPlaying: boolean = false;
+  public pigStatus$: Observable<string | null> =
+    this.store.select(selectPigStatus);
+
+  get currentPigStatus$(): Observable<string | null> {
+    return this.pigStatus ? of(this.pigStatus) : this.pigStatus$;
+  }
 
   clic() {
     this.stop();
+    this.currentPigStatus$
+      .pipe(
+        take(1),
+        switchMap((currentStatus) => {
+          const newStatus = currentStatus === 'putin' ? 'start' : 'putin';
 
-    this.store
-      .select(selectPigStatus)
-      .pipe(take(1))
-      .subscribe((currentStatus) => {
-        let newStatus = currentStatus === 'putin' ? 'start' : 'putin';
+          if (newStatus === 'putin') {
+            this.store.dispatch(disableFeeding());
+          } else {
+            this.store.dispatch(enableFeeding());
+          }
 
-        this.pigStatus = newStatus;
-        this.cdr.markForCheck();
-        if (newStatus === 'putin') {
-          this.store.dispatch(disableFeeding());
-        } else {
-          this.store.dispatch(enableFeeding());
-        }
-
-        this.pigStatusService.updateStatus(newStatus).subscribe(() => {
-          this.store.dispatch(getPigStatus());
-        });
-      });
+          return this.pigStatusService.updateStatus(newStatus).pipe(
+            tap(() => {
+              this.store.dispatch(getPigStatus());
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
+
   playMusic() {
-    if (!this.pigStatus) {
-      this.pigStatus = 'start';
-    }
+    this.currentPigStatus$
+      .pipe(
+        take(1),
+        switchMap((pigStatus) => {
+          const fileName =
+            pigStatus === 'putin'
+              ? 'music/audio/ssrk.mp3'
+              : 'music/audio/pig.mp3';
 
-    const fileName =
-      this.pigStatus === 'putin'
-        ? 'music/audio/ssrk.mp3'
-        : 'music/audio/pig.mp3';
-
-    this.audioService.loadAudio(fileName).subscribe({
-      next: (arrayBuffer) => {
-        this.audioService.decodeAudio(arrayBuffer).subscribe({
-          next: (buffer) => {
-            this.audioService.play(buffer);
-            this.isPlaying = true;
-            this.cdr.markForCheck();
-          },
-        });
-      },
-    });
+          return this.audioService.loadAudio(fileName);
+        }),
+        switchMap((arrayBuffer) => this.audioService.decodeAudio(arrayBuffer)),
+        tap((buffer) => {
+          this.audioService.play(buffer);
+          this.isPlaying = true;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe();
   }
 
   stop() {
@@ -99,15 +109,19 @@ export class PigInteractionComponent {
     this.isPlaying = false;
   }
 
-  get pigImage(): string {
-    if (this.pigStatus === 'putin') {
-      return 'putin.png';
-    } else if (this.pigStatus === 'happy') {
-      return 'animals/napoleon-smile.png';
-    }
-    return 'animals/napoleon.png';
+  get pigImage$() {
+    return this.currentPigStatus$.pipe(
+      map((pigStatus) =>
+        pigStatus === 'putin'
+          ? 'putin.png'
+          : pigStatus === 'happy'
+          ? 'animals/napoleon-smile.png'
+          : 'animals/napoleon.png'
+      )
+    );
   }
-  get animationState(): string {
-    return this.pigImage;
+
+  get animationState$() {
+    return this.pigImage$;
   }
 }

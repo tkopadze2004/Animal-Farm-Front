@@ -1,12 +1,12 @@
 <div class="pig">
   <img
-    [src]="pigImage"
+    [src]="pigImage$ | ngrxPush"
     alt="napoleon"
-    [@fadeAnimation]="animationState"
+    [@fadeAnimation]="animationState$ | ngrxPush"
     (click)="clic()"
     class="pigs"
   />
-  @if (pigStatus!=='happy') {
+  @if ((currentPigStatus$ | ngrxPush) !== 'happy') {
   <button (click)="isPlaying ? stop() : playMusic()">
     <img
       [src]="isPlaying ? 'music/icons/stop.png' : 'music/icons/play.png'"
