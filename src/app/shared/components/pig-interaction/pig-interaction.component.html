@@ -3,7 +3,7 @@
     [src]="pigImage$ | ngrxPush"
     alt="napoleon"
     [@fadeAnimation]="animationState$ | ngrxPush"
-    (click)="clic()"
+    (click)="click()"
     class="pigs"
   />
   @if ((currentPigStatus$ | ngrxPush) !== 'happy') {

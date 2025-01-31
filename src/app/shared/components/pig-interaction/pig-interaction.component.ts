@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   inject,
+  input,
 } from '@angular/core';
 import {
   animate,
@@ -23,6 +23,8 @@ import { AudioService } from '../../../services/audio.service';
 import { PigStatusService } from '../../../services/pig-status.service';
 import { map, switchMap, tap, take, Observable, of } from 'rxjs';
 import { PushPipe } from '@ngrx/component';
+import { ImagePaths } from '../../enums/image-paths.enum';
+import { AudioPaths } from '../../enums/audio-paths.enum';
 
 @Component({
   selector: 'app-pig-interaction',
@@ -42,7 +44,7 @@ import { PushPipe } from '@ngrx/component';
   ],
 })
 export class PigInteractionComponent {
-  @Input() pigStatus: string | null = null;
+  public pigStatus = input<string | null>(null);
 
   private readonly store = inject(Store);
   private readonly pigStatusService = inject(PigStatusService);
@@ -54,10 +56,10 @@ export class PigInteractionComponent {
     this.store.select(selectPigStatus);
 
   get currentPigStatus$(): Observable<string | null> {
-    return this.pigStatus ? of(this.pigStatus) : this.pigStatus$;
+    return this.pigStatus() ? of(this.pigStatus()) : this.pigStatus$;
   }
 
-  clic() {
+  public click(): void {
     this.stop();
     this.currentPigStatus$
       .pipe(
@@ -81,16 +83,13 @@ export class PigInteractionComponent {
       .subscribe();
   }
 
-
-  playMusic() {
+  public playMusic(): void {
     this.currentPigStatus$
       .pipe(
         take(1),
         switchMap((pigStatus) => {
           const fileName =
-            pigStatus === 'putin'
-              ? 'music/audio/ssrk.mp3'
-              : 'music/audio/pig.mp3';
+            pigStatus === 'putin' ? AudioPaths.USSR : AudioPaths.Napoleon;
 
           return this.audioService.loadAudio(fileName);
         }),
@@ -104,24 +103,24 @@ export class PigInteractionComponent {
       .subscribe();
   }
 
-  stop() {
+  public stop(): void {
     this.audioService.stop();
     this.isPlaying = false;
   }
 
-  get pigImage$() {
+  public get pigImage$(): Observable<ImagePaths> {
     return this.currentPigStatus$.pipe(
       map((pigStatus) =>
         pigStatus === 'putin'
-          ? 'putin.png'
+          ? ImagePaths.Putin
           : pigStatus === 'happy'
-          ? 'animals/napoleon-smile.png'
-          : 'animals/napoleon.png'
+          ? ImagePaths.NapoleonSmile
+          : ImagePaths.Napoleon
       )
     );
   }
 
-  get animationState$() {
+  public get animationState$(): Observable<ImagePaths> {
     return this.pigImage$;
   }
 }
