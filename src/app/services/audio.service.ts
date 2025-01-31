@@ -14,7 +14,7 @@ export class AudioService {
   private readonly audioBaseUrl =
     window.location.hostname === 'localhost'
       ? 'http://localhost:4200/'
-      : 'https://animal-farm-456c4.firebaseapp.com/';
+      : 'https://animal-farm-456c4.web.app/';
 
   loadAudio(filePath: string): Observable<ArrayBuffer> {
     const url = `${this.audioBaseUrl}${filePath}`;
