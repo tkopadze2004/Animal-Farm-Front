@@ -8,4 +8,5 @@ export interface IAnimalsState {
   pigStatus?: string | null;
   currentStatus: string | null;
   message: string | null;
+  disableFeed:boolean
 }

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { AnimalsActionsTypes } from './animals.actions.types';
-import { IAnimal } from '../../core/models/animals.model';
+import { IAnimal, IFeedAnimalRes } from '../../core/models/animals.model';
 
 export const getAnimalsData = createAction(AnimalsActionsTypes.GET_ANIMALS);
 export const getAnimalsDataSuccess = createAction(
@@ -18,12 +18,7 @@ export const feedAnimal = createAction(
 );
 export const feedAnimalSuccess = createAction(
   AnimalsActionsTypes.FEED_ANIMAL_SUCCESS,
-  props<{
-    thanksCount: number;
-    id: string;
-    pigStatus: string;
-    message: string;
-  }>()
+  props<IFeedAnimalRes>()
 );
 
 export const feedAnimalDataFailure = createAction(

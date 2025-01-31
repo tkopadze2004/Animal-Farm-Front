@@ -1,14 +1,18 @@
 <div class="pig">
-  @if (pigStatus=="happy") {
-  <img src="animals/napoleon-smile.png" alt="napoleon" [@fadeAnimation] />
-
-  }@else {<img
-    src="animals/napoleon.png"
-    alt="napoleon smiling"
-    [@fadeAnimation]
-  />}
+  <img
+    [src]="pigImage"
+    alt="napoleon"
+    [@fadeAnimation]="animationState"
+    (click)="clic()"
+    class="pigs"
+  />
+  @if (pigStatus!=='happy') {
+  <button (click)="isPlaying ? stop() : playMusic()">
+    <img
+      [src]="isPlaying ? 'music/icons/stop.png' : 'music/icons/play.png'"
+      alt="Play/Stop"
+      class="play-stop"
+    />
+  </button>
+  }
 </div>
-
-<!-- <div class="pig">
-  <img [src]="pigImage" alt="napoleon" [@replaceAnimation]="pigImage" />
-</div> -->

@@ -28,6 +28,12 @@
   }
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+
 @media (max-width: 1024px) {
   .animal {
     width: 160px;

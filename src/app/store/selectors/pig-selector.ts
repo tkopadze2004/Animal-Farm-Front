@@ -7,3 +7,4 @@ export const selectPigStatus = createSelector(
   selectPigState,
   (state: IAnimalsState) => state.currentStatus
 );
+export const selectDisableFeed = createSelector(selectPigState, (state) => state.disableFeed);

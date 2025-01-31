@@ -9,7 +9,7 @@ export const selectAnimals = createSelector(
   (state: IAnimalsState) => state.animals
 );
 
-export const selectThanksCount = createSelector(
+export const selectFeedAnimalSuccess = createSelector(
   selectAnimalsState,
   (state: IAnimalsState) => ({
     thanksCount: state.thanksCount,

@@ -2,6 +2,7 @@
   <img
     [src]="'animals/' + name() + '.png'"
     [alt]="name()"
+    [class.disabled]="(disableFeed$ | ngrxPush) === true"
     class="animal__name"
   />
   <div class="animal__info">
@@ -14,6 +15,7 @@
       [alt]="name()"
       class="animal__info--food"
       (click)="feedAnimal()"
+      [class.disabled]="(disableFeed$ | ngrxPush) === true"
     />
   </div>
 </div>

@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import {
   selectAnimals,
-  selectThanksCount,
+  selectFeedAnimalSuccess,
 } from '../../store/selectors/animals.selectors';
 import { getAnimalsData } from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
@@ -44,34 +44,39 @@ export class AnimalFarmComponent implements OnInit {
     this.store.dispatch(getAnimalsData());
   }
 
-  public success$ = this.store.select(selectThanksCount).pipe(
+  public success$ = this.store.select(selectFeedAnimalSuccess).pipe(
     tap((response) => {
-      const { thanksCount, pigStatus, message } = response;
+      const { thanksCount, message } = response;
 
       if (thanksCount === undefined || thanksCount === 0) {
         return;
       }
 
-      if (thanksCount > 0) {
+      if (thanksCount > 0 && message!) {
         this.openSnackBar(message!);
       }
-
-      this.pigStatus = pigStatus;
     }),
     switchMap((response) => {
-      const { thanksCount } = response;
+      const { pigStatus, thanksCount } = response;
 
       if (thanksCount === undefined || thanksCount === 0) {
         return [];
       }
-
-      return timer(2000).pipe(
+      return timer(300).pipe(
+        tap(() => {
+          this.pigStatus = pigStatus;
+          this.cdr.markForCheck();
+        }),
         switchMap(() => {
-          this.store.dispatch(getPigStatus());
-          return this.store.select(selectPigStatus).pipe(
-            tap((newPigStatus) => {
-              this.pigStatus = newPigStatus;
-              this.cdr.markForCheck();
+          return timer(3000).pipe(
+            switchMap(() => {
+              this.store.dispatch(getPigStatus());
+              return this.store.select(selectPigStatus).pipe(
+                tap((newPigStatus) => {
+                  this.pigStatus = newPigStatus;
+                  this.cdr.markForCheck();
+                })
+              );
             })
           );
         })

@@ -10,6 +10,7 @@ const initialState: IAnimalsState = {
   pigStatus: null,
   currentStatus: null,
   message: null,
+  disableFeed: false,
 };
 
 export const AnimalsReducer = createReducer(

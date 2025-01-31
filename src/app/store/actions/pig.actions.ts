@@ -11,3 +11,11 @@ export const getPigStatusFailure = createAction(
   PigActionsTypes.GET_PIG_STATUS_FAILURE,
   props<{ error: string }>()
 );
+export const setPigStatus = createAction(
+  '[Pig] Set Status',
+  props<{ status: string }>()
+);
+
+
+export const disableFeeding = createAction('[Pig] Disable Feeding');
+export const enableFeeding = createAction('[Pig] Enable Feeding');
