@@ -12,7 +12,15 @@ import {
 } from '../../store/selectors/animals.selectors';
 import { getAnimalsData } from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
-import { Observable, switchMap, tap, timer } from 'rxjs';
+import {
+  delayWhen,
+  filter,
+  mergeMap,
+  Observable,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
 import { IAnimal } from '../../core/models/animals.model';
 import { AnimalCardComponent } from '../../shared/components/animal-card/animal-card.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -36,55 +44,43 @@ import { getPigStatus } from '../../store/actions/pig.actions';
 export class AnimalFarmComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly store: Store = inject(Store);
-  public animals$: Observable<IAnimal[] | undefined> =
-    this.store.select(selectAnimals);
+  public animals$: Observable<IAnimal[]> = this.store.select(selectAnimals);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
-  public pigStatus: string | null | undefined | unknown = '';
+  public pigStatus: string | null = '';
   public ngOnInit(): void {
     this.store.dispatch(getAnimalsData());
   }
 
-  public success$ = this.store.select(selectFeedAnimalSuccess).pipe(
-    tap((response) => {
-      const { thanksCount, message } = response;
+  public success$: Observable<string | null> = this.store
+    .select(selectFeedAnimalSuccess)
+    .pipe(
+      tap(({ thanksCount, message }) => {
+        if (thanksCount && message) {
+          this.openSnackBar(message);
+        }
+      }),
+      filter(({ thanksCount }) => !!thanksCount),
+      mergeMap(({ pigStatus }) =>
+        timer(300).pipe(
+          tap(() => {
+            this.pigStatus = pigStatus;
+            this.cdr.markForCheck();
+          }),
+          delayWhen(() => timer(3000)),
+          tap(() => this.store.dispatch(getPigStatus())),
+          switchMap(() =>
+            this.store.select(selectPigStatus).pipe(
+              tap((updatedPigStatus) => {
+                this.pigStatus = updatedPigStatus;
+                this.cdr.markForCheck();
+              })
+            )
+          )
+        )
+      )
+    );
 
-      if (thanksCount === undefined || thanksCount === 0) {
-        return;
-      }
-
-      if (thanksCount > 0 && message!) {
-        this.openSnackBar(message!);
-      }
-    }),
-    switchMap((response) => {
-      const { pigStatus, thanksCount } = response;
-
-      if (thanksCount === undefined || thanksCount === 0) {
-        return [];
-      }
-      return timer(300).pipe(
-        tap(() => {
-          this.pigStatus = pigStatus;
-          this.cdr.markForCheck();
-        }),
-        switchMap(() => {
-          return timer(3000).pipe(
-            switchMap(() => {
-              this.store.dispatch(getPigStatus());
-              return this.store.select(selectPigStatus).pipe(
-                tap((newPigStatus) => {
-                  this.pigStatus = newPigStatus;
-                  this.cdr.markForCheck();
-                })
-              );
-            })
-          );
-        })
-      );
-    })
-  );
-
-  openSnackBar(message: string) {
+  private openSnackBar(message: string): void {
     this.snackBar.open(message, '', {
       duration: 2000,
       panelClass: [`test`],

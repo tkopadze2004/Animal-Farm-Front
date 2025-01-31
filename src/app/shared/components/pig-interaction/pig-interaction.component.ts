@@ -13,8 +13,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
-import { Observable, take, tap } from 'rxjs';
+import { take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   disableFeeding,
@@ -23,6 +22,7 @@ import {
 } from '../../../store/actions/pig.actions';
 import { selectPigStatus } from '../../../store/selectors/pig-selector';
 import { AudioService } from '../../../services/audio.service';
+import { PigStatusService } from '../../../services/pig-status.service';
 
 @Component({
   selector: 'app-pig-interaction',
@@ -41,18 +41,12 @@ import { AudioService } from '../../../services/audio.service';
   ],
 })
 export class PigInteractionComponent {
-  @Input() pigStatus: string | null | unknown = null;
-  store = inject(Store);
-  htto = inject(HttpClient);
-  isPlaying = false; // Flag to track music state
-
-  updateStatus(status: string): Observable<any> {
-    return this.htto.post<any>('http://localhost:3000/api/bidzina/update', {
-      status,
-    });
-  }
-
-  constructor(private audioService: AudioService) {}
+  @Input() pigStatus: string | null = null;
+  private readonly store: Store = inject(Store);
+  public isPlaying: boolean = false;
+  private readonly pigStatusService = inject(PigStatusService);
+  private readonly audioService = inject(AudioService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   clic() {
     this.stop();
@@ -64,11 +58,6 @@ export class PigInteractionComponent {
         let newStatus = currentStatus === 'putin' ? 'start' : 'putin';
 
         this.pigStatus = newStatus;
-        // if (!this.pigStatus) {
-        //   this.pigStatus = 'start';
-        // }
-        // console.log(this.pigStatus);
-
         this.cdr.markForCheck();
         if (newStatus === 'putin') {
           this.store.dispatch(disableFeeding());
@@ -76,7 +65,7 @@ export class PigInteractionComponent {
           this.store.dispatch(enableFeeding());
         }
 
-        this.updateStatus(newStatus).subscribe(() => {
+        this.pigStatusService.updateStatus(newStatus).subscribe(() => {
           this.store.dispatch(getPigStatus());
         });
       });
@@ -87,22 +76,28 @@ export class PigInteractionComponent {
       this.pigStatus = 'start';
     }
 
-    if (this.pigStatus === 'putin') {
-      this.audioService.loadAndPlay('music/audio/ssrk.mp3');
-      this.isPlaying = true;
-    }
+    const fileName =
+      this.pigStatus === 'putin'
+        ? 'music/audio/ssrk.mp3'
+        : 'music/audio/pig.mp3';
 
-    if (this.pigStatus === 'start') {
-      this.audioService.loadAndPlay('music/audio/pig.mp3');
-      this.isPlaying = true;
-    }
+    this.audioService.loadAudio(fileName).subscribe({
+      next: (arrayBuffer) => {
+        this.audioService.decodeAudio(arrayBuffer).subscribe({
+          next: (buffer) => {
+            this.audioService.play(buffer);
+            this.isPlaying = true;
+            this.cdr.markForCheck();
+          },
+        });
+      },
+    });
   }
 
   stop() {
     this.audioService.stop();
     this.isPlaying = false;
   }
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   get pigImage(): string {
     if (this.pigStatus === 'putin') {

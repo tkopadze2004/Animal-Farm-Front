@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.apiUrl;
 
-  http: HttpClient = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
 
   get<T>(path: string, params?: any): Observable<T> {
     const httpparams = new HttpParams({

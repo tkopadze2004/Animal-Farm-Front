@@ -1,36 +1,32 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AudioService {
-  private audioContext: AudioContext;
+  private audioContext = new AudioContext();
   private audioBuffer: AudioBuffer | null = null;
   private sourceNode: AudioBufferSourceNode | null = null;
+  private readonly http: HttpClient = inject(HttpClient);
 
-  constructor() {
-    this.audioContext = new AudioContext();
+  private readonly audioBaseUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:4200/'
+      : 'https://animal-farm-456c4.firebaseapp.com/';
+
+  loadAudio(filePath: string): Observable<ArrayBuffer> {
+    const url = `${this.audioBaseUrl}${filePath}`;
+    return this.http.get(url, { responseType: 'arraybuffer' });
   }
 
-  async loadAudio(url: string) {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    this.audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+  decodeAudio(arrayBuffer: ArrayBuffer): Observable<AudioBuffer> {
+    return from(this.audioContext.decodeAudioData(arrayBuffer));
   }
 
-
-  async loadAndPlay(fileName: string) {
-    await this.loadAudio(fileName);
-    this.play();
-  }
-
-
-  play() {
-    if (!this.audioBuffer) {
-      console.error('Audio not loaded.');
-      return;
-    }
-
+  play(buffer: AudioBuffer) {
+    this.audioBuffer = buffer;
     this.sourceNode = this.audioContext.createBufferSource();
     this.sourceNode.buffer = this.audioBuffer;
     this.sourceNode.connect(this.audioContext.destination);
