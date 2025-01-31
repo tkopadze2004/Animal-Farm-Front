@@ -10,8 +10,4 @@ export class PigStatusService extends ApiService {
   status(): Observable<IPigStatus> {
     return this.get<IPigStatus>('bidzina/status');
   }
-
-  // reset() {
-  //   return this.post('pig/reset');
-  // }
 }

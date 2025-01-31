@@ -8,7 +8,6 @@ import { provideEffects } from '@ngrx/effects';
 import { AnimalsReducer } from './store/reducers/animals.reducers';
 import { AnimalsEffect } from './store/effects/animals.effects';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { PigReducer } from './store/reducers/pig.reducer';
 import { PigEffect } from './store/effects/pig.effect';
 
@@ -20,6 +19,5 @@ export const appConfig: ApplicationConfig = {
     provideStore({ animals: AnimalsReducer, pig: PigReducer }),
     provideEffects(AnimalsEffect, PigEffect),
     provideAnimationsAsync(),
-    // provideAnimations()
   ],
 };

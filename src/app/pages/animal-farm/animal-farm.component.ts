@@ -14,9 +14,9 @@ import { getAnimalsData } from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
 import { Observable, switchMap, tap, timer } from 'rxjs';
 import { IAnimal } from '../../core/models/animals.model';
-import { AnimalCardComponent } from '../../shared/animal-card/animal-card.component';
+import { AnimalCardComponent } from '../../shared/components/animal-card/animal-card.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PigInteractionComponent } from '../../shared/pig-interaction/pig-interaction.component';
+import { PigInteractionComponent } from '../../shared/components/pig-interaction/pig-interaction.component';
 import { selectPigStatus } from '../../store/selectors/pig-selector';
 import { getPigStatus } from '../../store/actions/pig.actions';
 

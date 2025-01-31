@@ -20,9 +20,9 @@ import {
   disableFeeding,
   enableFeeding,
   getPigStatus,
-} from '../../store/actions/pig.actions';
-import { selectPigStatus } from '../../store/selectors/pig-selector';
-import { AudioService } from '../../services/audio.service';
+} from '../../../store/actions/pig.actions';
+import { selectPigStatus } from '../../../store/selectors/pig-selector';
+import { AudioService } from '../../../services/audio.service';
 
 @Component({
   selector: 'app-pig-interaction',

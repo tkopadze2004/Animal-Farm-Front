@@ -1,33 +1,29 @@
 import { createReducer, on } from '@ngrx/store';
-import { IAnimalsState } from '../states/animals.states';
 import * as pigActions from '../actions/pig.actions';
+import { IPigState } from '../states/pig.states';
 
-const initialState: IAnimalsState = {
-  animals: [],
-  thanksCount: 0,
-  loading: false,
-  error: null,
-  pigStatus: null,
+const initialState: IPigState = {
   currentStatus: null,
-  message: null,
   disableFeed: false,
+  isLoading: false,
+  error: null,
 };
 export const PigReducer = createReducer(
   initialState,
   on(pigActions.getPigStatus, (state) => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null,
   })),
   on(pigActions.getPigStatusSuccess, (state, { currentStatus }) => ({
     ...state,
     currentStatus: currentStatus,
-    loading: false,
+    isLoading: false,
     error: null,
   })),
   on(pigActions.getPigStatusFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    isLoading: false,
     error,
   })),
 

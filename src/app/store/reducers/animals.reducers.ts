@@ -5,36 +5,34 @@ import { IAnimalsState } from '../states/animals.states';
 const initialState: IAnimalsState = {
   animals: [],
   thanksCount: 0,
-  loading: false,
   error: null,
   pigStatus: null,
-  currentStatus: null,
   message: null,
-  disableFeed: false,
+  isLoading: false,
 };
 
 export const AnimalsReducer = createReducer(
   initialState,
   on(animalActions.getAnimalsData, (state) => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null,
   })),
   on(animalActions.getAnimalsDataSuccess, (state, { animals }) => ({
     ...state,
     animals: animals,
-    loading: false,
+    isLoading: false,
     error: null,
   })),
   on(animalActions.getAnimalsDataFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    isLoading: false,
     error,
   })),
 
   on(animalActions.feedAnimal, (state) => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null,
   })),
   on(
@@ -44,8 +42,7 @@ export const AnimalsReducer = createReducer(
       animals: state.animals?.map((animal) =>
         animal._id === id ? { ...animal, thanksCount } : animal
       ),
-
-      loading: false,
+      isLoading: false,
       error: null,
       thanksCount: thanksCount,
       pigStatus: pigStatus,
@@ -55,7 +52,7 @@ export const AnimalsReducer = createReducer(
 
   on(animalActions.feedAnimalDataFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    isLoading: false,
     error,
   }))
 );

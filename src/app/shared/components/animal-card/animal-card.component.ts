@@ -5,8 +5,8 @@ import {
   input,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { feedAnimal } from '../../store/actions/animals.actions';
-import { selectDisableFeed } from '../../store/selectors/pig-selector';
+import { feedAnimal } from '../../../store/actions/animals.actions';
+import { selectDisableFeed } from '../../../store/selectors/pig-selector';
 import { PushPipe } from '@ngrx/component';
 
 @Component({
