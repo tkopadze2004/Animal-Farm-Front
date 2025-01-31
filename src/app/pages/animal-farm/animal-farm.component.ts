@@ -42,8 +42,8 @@ import { getPigStatus } from '../../store/actions/pig.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimalFarmComponent implements OnInit {
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly store: Store = inject(Store);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   public animals$: Observable<IAnimal[]> = this.store.select(selectAnimals);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   public pigStatus: string | null = '';
@@ -66,7 +66,7 @@ export class AnimalFarmComponent implements OnInit {
             this.pigStatus = pigStatus;
             this.cdr.markForCheck();
           }),
-          delayWhen(() => timer(3000)),
+          delayWhen(() => timer(2300)),
           tap(() => this.store.dispatch(getPigStatus())),
           switchMap(() =>
             this.store.select(selectPigStatus).pipe(
@@ -83,8 +83,7 @@ export class AnimalFarmComponent implements OnInit {
   private openSnackBar(message: string): void {
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass: [`test`],
+      panelClass: [`popup`],
     });
   }
-  // isloadig$:Observable<boolean> = this.store.select(selectLoading);
 }

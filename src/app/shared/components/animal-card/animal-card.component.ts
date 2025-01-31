@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { feedAnimal } from '../../../store/actions/animals.actions';
 import { selectDisableFeed } from '../../../store/selectors/pig-selector';
 import { PushPipe } from '@ngrx/component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-animal-card',
@@ -24,7 +25,8 @@ export class AnimalCardComponent {
   public food = input<string>('');
   public id = input<string>('');
 
-  public disableFeed$ = this.store.select(selectDisableFeed);
+  public disableFeed$: Observable<boolean> =
+    this.store.select(selectDisableFeed);
 
   public feedAnimal(): void {
     this.store.dispatch(feedAnimal({ id: this.id() }));
