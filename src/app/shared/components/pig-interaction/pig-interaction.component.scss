@@ -3,32 +3,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px; 
-  height: 400px;
+  max-width: 100%;
+  width: clamp(200px, 35vw, 400px); // Scales dynamically
+  height: auto;
   cursor: pointer;
-}
+  aspect-ratio: 1 / 1; // Ensures a square shape
 
-.pigs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  object-fit: cover;
+  & img.pigs {
+    width:100%;
+    height: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
 }
 
 button {
-  z-index: 10000;
+  z-index: 10;
   position: absolute;
-  bottom: 0px;
+  bottom: 10px;
   background: none;
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease-out;
 
   .play-stop {
-    width: 45px;
+    width: clamp(30px, 4vw, 45px); // Adjusts size dynamically
   }
 
   &:hover {
@@ -36,16 +36,20 @@ button {
   }
 }
 
+/* Responsive Design */
 @media (max-width: 1024px) {
   .pig {
-    width: 300px;
-    height: 300px;
+    width: clamp(200px, 35vw, 400px); // Scales dynamically
+
+    & img.pigs {
+      width: 90%;
+      height: 90%;
+    }
   }
 }
 
 @media (max-width: 768px) {
   .pig {
-    width: 150px;
-    height: 150px;
+    width: clamp(160px, 35vw, 400px);
   }
 }

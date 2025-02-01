@@ -1,21 +1,15 @@
 :host {
   .cont {
-    padding: 20px 100px;
+    padding: 0 100px;
     margin: 0;
   }
 }
 @media (max-width: 1024px) {
   :host {
     .cont {
-      padding: 50px 55px;
+      padding: 0 10px;
     }
   }
 }
 
-@media (max-width: 768px) {
-  :host {
-    .cont {
-      padding: 110px 0;
-    }
-  }
-}
+

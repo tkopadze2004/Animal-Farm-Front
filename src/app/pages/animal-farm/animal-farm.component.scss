@@ -1,10 +1,11 @@
 .cont {
   display: flex;
   justify-content: space-between;
+  height: 100vh;
   &__animals {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    justify-content: space-around;
   }
   &__napoleon {
     display: flex;
@@ -12,18 +13,17 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .cont {
-    &__animals {
-      gap: 65px;
-    }
-  }
-}
+// @media (max-width: 1024px) {
+//   .cont {
+//     &__animals {
+//       gap: 65px;
+//     }
+//   }
+// }
 
-@media (max-width: 768px) {
-  .cont {
-    &__animals {
-      gap: 60px;
-    }
-  }
-}
+// @media (max-width: 768px) {
+//   .cont {
+//     &__animals {
+//       gap: 60px;
+//     }
+//   }

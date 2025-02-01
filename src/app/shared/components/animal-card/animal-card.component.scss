@@ -1,29 +1,35 @@
 .animal {
-  width: 200px;
+  max-width: clamp(130px, 25vw, 180px); // Adjusts size responsively
   display: flex;
   flex-direction: column;
-  font-size: 16px;
+  font-size: clamp(10px, 2vw, 16px);
   font-weight: 400;
   color: rgb(213, 213, 213);
+
   &__name {
     width: 100%;
-    aspect-ratio: 202 / 179;
+    height: auto;
+    max-width: clamp(100px, 22vw, 170px); // Scales dynamically
     object-fit: cover;
     border-radius: 10px;
   }
+
   &__info {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
-    &--thanksCout {
+
+    &--thanksCount {
       &-value {
-        font-weight: bolder;
+        font-weight: bold;
+        font-size: inherit;
       }
     }
+
     &--food {
       cursor: pointer;
-      width: 25px;
+      width: clamp(10px, 2vw, 25px);
     }
   }
 }
@@ -31,45 +37,4 @@
 .disabled {
   pointer-events: none;
   opacity: 0.4;
-}
-
-
-@media (max-width: 1024px) {
-  .animal {
-    width: 160px;
-    font-size: 14px;
-
-    &__info {
-      &--thanksCout {
-        &-value {
-          font-weight: bolder;
-          font-size: 14px;
-        }
-      }
-      &--food {
-        cursor: pointer;
-        width: 18px;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .animal {
-    width: 95px;
-    font-size: 10px;
-
-    &__info {
-      &--thanksCout {
-        &-value {
-          font-weight: bolder;
-          font-size: 10px;
-        }
-      }
-      &--food {
-        cursor: pointer;
-        width: 12px;
-      }
-    }
-  }
 }
