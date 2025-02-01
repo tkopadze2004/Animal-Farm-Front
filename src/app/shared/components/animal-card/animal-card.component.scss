@@ -1,5 +1,5 @@
 .animal {
-  max-width: clamp(130px, 25vw, 180px); // Adjusts size responsively
+  max-width: clamp(130px, 25vw, 180px); 
   display: flex;
   flex-direction: column;
   font-size: clamp(10px, 2vw, 16px);
@@ -9,7 +9,7 @@
   &__name {
     width: 100%;
     height: auto;
-    max-width: clamp(100px, 22vw, 170px); // Scales dynamically
+    max-width: clamp(100px, 22vw, 170px);
     object-fit: cover;
     border-radius: 10px;
   }
@@ -37,4 +37,23 @@
 .disabled {
   pointer-events: none;
   opacity: 0.4;
+}
+
+mat-progress-spinner {
+  width: 16px;
+  height: 16px;
+}
+
+@media (min-width: 768px) {
+  mat-progress-spinner {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  mat-progress-spinner {
+    width: 22px;
+    height: 22px;
+  }
 }

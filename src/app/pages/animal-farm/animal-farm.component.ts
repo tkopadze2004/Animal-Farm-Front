@@ -14,6 +14,7 @@ import { getAnimalsData } from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
 import {
   delayWhen,
+  distinctUntilChanged,
   filter,
   mergeMap,
   Observable,
@@ -27,6 +28,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PigInteractionComponent } from '../../shared/components/pig-interaction/pig-interaction.component';
 import { selectPigStatus } from '../../store/selectors/pig-selector';
 import { getPigStatus } from '../../store/actions/pig.actions';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-animal-farm',
@@ -50,35 +52,35 @@ export class AnimalFarmComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(getAnimalsData());
   }
-
   public success$: Observable<string | null> = this.store
-    .select(selectFeedAnimalSuccess)
-    .pipe(
-      tap(({ thanksCount, message }) => {
-        if (thanksCount && message) {
-          this.openSnackBar(message);
-        }
-      }),
-      filter(({ thanksCount }) => !!thanksCount),
-      mergeMap(({ pigStatus }) =>
-        timer(300).pipe(
-          tap(() => {
-            this.pigStatus = pigStatus;
-            this.cdr.markForCheck();
-          }),
-          delayWhen(() => timer(2300)),
-          tap(() => this.store.dispatch(getPigStatus())),
-          switchMap(() =>
-            this.store.select(selectPigStatus).pipe(
-              tap((updatedPigStatus) => {
-                this.pigStatus = updatedPigStatus;
-                this.cdr.markForCheck();
-              })
-            )
+  .select(selectFeedAnimalSuccess)
+  .pipe(
+    distinctUntilChanged((prev, curr) => prev.thanksCount === curr.thanksCount && prev.message === curr.message),
+    filter(({ thanksCount, message }) => !!thanksCount && !!message),
+    tap(({ thanksCount, message }) => {
+      // Show snackbar only when new thanksCount and message are valid
+      this.openSnackBar(message!);
+    }),
+    mergeMap(({ pigStatus }) =>
+      timer(100).pipe(
+        tap(() => {
+          this.pigStatus = pigStatus;
+          this.cdr.markForCheck();
+        }),
+        delayWhen(() => timer(2500)),
+        tap(() => this.store.dispatch(getPigStatus())),
+        switchMap(() =>
+          this.store.select(selectPigStatus).pipe(
+            tap((updatedPigStatus) => {
+              this.pigStatus = updatedPigStatus;
+              this.cdr.markForCheck();
+            })
           )
         )
       )
-    );
+    )
+  );
+
 
   private openSnackBar(message: string): void {
     this.snackBar.open(message, '', {
