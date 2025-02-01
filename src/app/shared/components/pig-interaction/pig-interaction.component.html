@@ -7,12 +7,24 @@
     class="pigs"
   />
   @if ((currentPigStatus$ | ngrxPush) !== 'happy') {
-  <button (click)="isPlaying ? stop() : playMusic()">
+  <button>
+    @if ((loading$ | ngrxPush)) {
+    <mat-progress-spinner
+      mode="indeterminate"
+      [diameter]="50"
+      [strokeWidth]="6"
+      class="custom-spinner"
+      [style.stroke]="'white'"
+    >
+    </mat-progress-spinner>
+    } @else {
     <img
+      (click)="isPlaying ? stop() : playMusic()"
       [src]="isPlaying ? 'music/icons/stop.png' : 'music/icons/play.png'"
       alt="Play/Stop"
       class="play-stop"
     />
+    }
   </button>
   }
 </div>

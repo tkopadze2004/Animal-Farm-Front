@@ -6,9 +6,10 @@ body {
   margin: 0;
   background-color: rgb(61, 17, 17);
   font-family: system-ui, sans-serif;
+  user-select: none;
 }
 
-.popup  {
+.popup {
   position: absolute;
   top: 20px;
   right: 41%;

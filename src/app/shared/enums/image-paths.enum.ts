@@ -1,5 +1,5 @@
 export enum ImagePaths {
-  Putin = 'putin.png',
-  NapoleonSmile = 'animals/napoleon-smile.png',
-  Napoleon = 'animals/napoleon.png'
+  Putin = 'dictators/putin.png',
+  NapoleonSmile = 'dictators/napoleon-smile.png',
+  Napoleon = 'dictators/napoleon.png',
 }

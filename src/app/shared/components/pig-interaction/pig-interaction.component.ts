@@ -25,11 +25,14 @@ import { map, switchMap, tap, take, Observable, of } from 'rxjs';
 import { PushPipe } from '@ngrx/component';
 import { ImagePaths } from '../../enums/image-paths.enum';
 import { AudioPaths } from '../../enums/audio-paths.enum';
+import { loadMusic, stopMusic } from '../../../store/actions/music.actions';
+import { selectMusicLoading } from '../../../store/selectors/audio.selectors';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-pig-interaction',
   standalone: true,
-  imports: [PushPipe],
+  imports: [PushPipe, MatProgressSpinnerModule],
   templateUrl: './pig-interaction.component.html',
   styleUrls: ['./pig-interaction.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,28 +86,22 @@ export class PigInteractionComponent {
       .subscribe();
   }
 
-  public playMusic(): void {
-    this.currentPigStatus$
-      .pipe(
-        take(1),
-        switchMap((pigStatus) => {
-          const fileName =
-            pigStatus === 'putin' ? AudioPaths.USSR : AudioPaths.Napoleon;
+  public loading$: Observable<boolean> = this.store.select(selectMusicLoading);
 
-          return this.audioService.loadAudio(fileName);
-        }),
-        switchMap((arrayBuffer) => this.audioService.decodeAudio(arrayBuffer)),
-        tap((buffer) => {
-          this.audioService.play(buffer);
-          this.isPlaying = true;
-          this.cdr.markForCheck();
-        })
-      )
-      .subscribe();
+  public playMusic(): void {
+    if (this.isPlaying) return;
+
+    this.currentPigStatus$.pipe(take(1)).subscribe((pigStatus) => {
+      const fileName =
+        pigStatus === 'putin' ? AudioPaths.USSR : AudioPaths.Napoleon;
+
+      this.store.dispatch(loadMusic({ filePath: fileName }));
+      this.isPlaying = true;
+    });
   }
 
   public stop(): void {
-    this.audioService.stop();
+    this.store.dispatch(stopMusic());
     this.isPlaying = false;
   }
 
