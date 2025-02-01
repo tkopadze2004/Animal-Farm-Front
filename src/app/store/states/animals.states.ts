@@ -6,4 +6,5 @@ export interface IAnimalsState extends IBaseState {
   thanksCount: number;
   pigStatus: string | null;
   message: string | null;
+  loadingAnimalId: string | null;
 }

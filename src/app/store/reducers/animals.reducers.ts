@@ -9,6 +9,7 @@ const initialState: IAnimalsState = {
   pigStatus: null,
   message: null,
   isLoading: false,
+  loadingAnimalId: null,
 };
 
 export const AnimalsReducer = createReducer(
@@ -30,10 +31,11 @@ export const AnimalsReducer = createReducer(
     error,
   })),
 
-  on(animalActions.feedAnimal, (state) => ({
+  on(animalActions.feedAnimal, (state, { id }) => ({
     ...state,
     isLoading: true,
     error: null,
+    loadingAnimalId: id,
   })),
   on(
     animalActions.feedAnimalSuccess,
@@ -47,12 +49,14 @@ export const AnimalsReducer = createReducer(
       thanksCount: thanksCount,
       pigStatus: pigStatus,
       message: message,
+      loadingAnimalId: null,
     })
   ),
 
   on(animalActions.feedAnimalDataFailure, (state, { error }) => ({
     ...state,
     isLoading: false,
+    loadingAnimalId: null,
     error,
   }))
 );

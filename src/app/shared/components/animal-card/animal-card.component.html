@@ -6,16 +6,23 @@
     class="animal__name"
   />
   <div class="animal__info">
+    Thanks Count :
     <span class="animal__info--thanksCout">
-      Thanks Cout :
+      @if ((loadingAnimalId$|ngrxPush )=== id()) {
+      <mat-progress-spinner
+        mode="indeterminate"
+        [style.stroke]="'white'"
+      ></mat-progress-spinner>
+      } @else {
       <span class="animal__info--thanksCout-value">{{ thanksCount() }}</span>
+      }
     </span>
     <img
       [src]="'food/' + food() + '.png'"
       [alt]="name()"
       class="animal__info--food"
       (click)="feedAnimal()"
-      [class.disabled]="(disableFeed$ | ngrxPush) === true"
+      [class.disabled]="disableFeedComputed$ | ngrxPush"
     />
   </div>
 </div>
