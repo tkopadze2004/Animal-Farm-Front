@@ -3,14 +3,15 @@
     [src]="'animals/' + name() + '.png'"
     [alt]="name()"
     [class.disabled]="(disableFeed$ | ngrxPush) === true"
-    class="animal__name"
+    class="animal__image"
   />
   <div class="animal__info">
     Thanks Count :
-    <span class="animal__info--thanksCout">
+    <span class="animal__info--count">
       @if ((loadingAnimalId$|ngrxPush )=== id()) {
       <mat-progress-spinner
         mode="indeterminate"
+        class="custom-spinner"
         [style.stroke]="'white'"
       ></mat-progress-spinner>
       } @else {

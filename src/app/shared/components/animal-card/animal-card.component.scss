@@ -1,17 +1,20 @@
 .animal {
-  max-width: clamp(130px, 25vw, 180px); 
+  max-width: clamp(130px, 25vw, 180px);
   display: flex;
   flex-direction: column;
   font-size: clamp(10px, 2vw, 16px);
   font-weight: 400;
   color: rgb(213, 213, 213);
 
-  &__name {
-    width: 100%;
-    height: auto;
+  &__image {
     max-width: clamp(100px, 22vw, 170px);
     object-fit: cover;
     border-radius: 10px;
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.4;
+    }
   }
 
   &__info {
@@ -20,11 +23,9 @@
     justify-content: space-between;
     margin-top: 10px;
 
-    &--thanksCount {
-      &-value {
-        font-weight: bold;
-        font-size: inherit;
-      }
+    &--count {
+      font-weight: bold;
+      font-size: inherit;
     }
 
     &--food {
@@ -33,27 +34,7 @@
     }
   }
 }
-
-.disabled {
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-mat-progress-spinner {
-  width: 16px;
-  height: 16px;
-}
-
-@media (min-width: 768px) {
-  mat-progress-spinner {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-@media (min-width: 1024px) {
-  mat-progress-spinner {
-    width: 22px;
-    height: 22px;
-  }
+.custom-spinner {
+  width: clamp(12px, 2vw, 17px) !important;
+  height: clamp(12px, 2vw, 17px) !important;
 }
