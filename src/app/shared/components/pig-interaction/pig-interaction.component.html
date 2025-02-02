@@ -4,16 +4,15 @@
     alt="napoleon"
     [@fadeAnimation]="animationState$ | ngrxPush"
     (click)="click()"
-    class="pigs"
+    class="pig__images"
   />
   @if ((currentPigStatus$ | ngrxPush) !== 'happy') {
-  <button>
+  <button class="pig__actions">
     @if ((loading$ | ngrxPush)) {
     <mat-progress-spinner
       mode="indeterminate"
-      [diameter]="50"
-      [strokeWidth]="6"
-      class="custom-spinner"
+      [strokeWidth]="10"
+      class="pig__actions--custom-spinner"
       [style.stroke]="'white'"
     >
     </mat-progress-spinner>
@@ -22,7 +21,7 @@
       (click)="isPlaying ? stop() : playMusic()"
       [src]="isPlaying ? 'music/icons/stop.png' : 'music/icons/play.png'"
       alt="Play/Stop"
-      class="play-stop"
+      class="pig__actions--play-stop"
     />
     }
   </button>
