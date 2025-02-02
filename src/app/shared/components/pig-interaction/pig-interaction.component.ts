@@ -21,7 +21,7 @@ import {
 import { selectPigStatus } from '../../../store/selectors/pig-selector';
 import { AudioService } from '../../../services/audio.service';
 import { PigStatusService } from '../../../services/pig-status.service';
-import { map, switchMap, tap, take, Observable, of } from 'rxjs';
+import { map, switchMap, tap, take, Observable, of, finalize } from 'rxjs';
 import { PushPipe } from '@ngrx/component';
 import { ImagePaths } from '../../enums/image-paths.enum';
 import { AudioPaths } from '../../enums/audio-paths.enum';
@@ -61,8 +61,15 @@ export class PigInteractionComponent {
   get currentPigStatus$(): Observable<string | null> {
     return this.pigStatus() ? of(this.pigStatus()) : this.pigStatus$;
   }
+  public clicked = false;
 
   public click(): void {
+    if (this.clicked) {
+      return;
+    }
+
+    this.clicked = true;
+
     this.stop();
     this.currentPigStatus$
       .pipe(
@@ -79,6 +86,9 @@ export class PigInteractionComponent {
           return this.pigStatusService.updateStatus(newStatus).pipe(
             tap(() => {
               this.store.dispatch(getPigStatus());
+            }),
+            finalize(() => {
+              this.clicked = false;
             })
           );
         })
