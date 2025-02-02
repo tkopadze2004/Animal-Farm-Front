@@ -10,7 +10,6 @@
     max-width: clamp(100px, 22vw, 170px);
     object-fit: cover;
     border-radius: 10px;
-
     &.disabled {
       pointer-events: none;
       opacity: 0.4;
@@ -31,6 +30,10 @@
     &--food {
       cursor: pointer;
       width: clamp(10px, 2vw, 25px);
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.4;
+      }
     }
   }
 }

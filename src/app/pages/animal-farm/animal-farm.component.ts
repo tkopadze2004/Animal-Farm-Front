@@ -53,34 +53,35 @@ export class AnimalFarmComponent implements OnInit {
     this.store.dispatch(getAnimalsData());
   }
   public success$: Observable<string | null> = this.store
-  .select(selectFeedAnimalSuccess)
-  .pipe(
-    distinctUntilChanged((prev, curr) => prev.thanksCount === curr.thanksCount && prev.message === curr.message),
-    filter(({ thanksCount, message }) => !!thanksCount && !!message),
-    tap(({ thanksCount, message }) => {
-      // Show snackbar only when new thanksCount and message are valid
-      this.openSnackBar(message!);
-    }),
-    mergeMap(({ pigStatus }) =>
-      timer(100).pipe(
-        tap(() => {
-          this.pigStatus = pigStatus;
-          this.cdr.markForCheck();
-        }),
-        delayWhen(() => timer(2500)),
-        tap(() => this.store.dispatch(getPigStatus())),
-        switchMap(() =>
-          this.store.select(selectPigStatus).pipe(
-            tap((updatedPigStatus) => {
-              this.pigStatus = updatedPigStatus;
-              this.cdr.markForCheck();
-            })
+    .select(selectFeedAnimalSuccess)
+    .pipe(
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev.thanksCount === curr.thanksCount && prev.message === curr.message
+      ),
+      filter(({ thanksCount, message }) => !!thanksCount && !!message),
+      tap(({ thanksCount, message }) => {
+        this.openSnackBar(message!);
+      }),
+      mergeMap(({ pigStatus }) =>
+        timer(100).pipe(
+          tap(() => {
+            this.pigStatus = pigStatus;
+            this.cdr.markForCheck();
+          }),
+          delayWhen(() => timer(2500)),
+          tap(() => this.store.dispatch(getPigStatus())),
+          switchMap(() =>
+            this.store.select(selectPigStatus).pipe(
+              tap((updatedPigStatus) => {
+                this.pigStatus = updatedPigStatus;
+                this.cdr.markForCheck();
+              })
+            )
           )
         )
       )
-    )
-  );
-
+    );
 
   private openSnackBar(message: string): void {
     this.snackBar.open(message, '', {
