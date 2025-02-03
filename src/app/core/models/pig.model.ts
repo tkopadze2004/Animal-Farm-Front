@@ -1,3 +1,3 @@
 export interface IPigStatus {
-  currentStatus: string;
+  pigStatus: string;
 }

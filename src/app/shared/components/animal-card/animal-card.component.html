@@ -2,13 +2,12 @@
   <img
     [src]="'animals/' + name() + '.png'"
     [alt]="name()"
-    [class.disabled]="(disableFeed$ | ngrxPush) === true"
     class="animal__image"
   />
   <div class="animal__info">
     Thanks Count :
     <span class="animal__info--count">
-      @if ((loadingAnimalId$|ngrxPush )=== id()) {
+      @if (loadingFeedAnimalById() === id()) {
       <mat-progress-spinner
         mode="indeterminate"
         class="custom-spinner"
@@ -22,8 +21,8 @@
       [src]="'food/' + food() + '.png'"
       [alt]="name()"
       class="animal__info--food"
-      (click)="feedAnimal()"
-      [class.disabled]="disableFeedComputed$ | ngrxPush"
+      (click)="onFeed()"
+      [class.disabled]="disableFeedComputed()"
     />
   </div>
 </div>

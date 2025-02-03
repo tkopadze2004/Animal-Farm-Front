@@ -2,13 +2,13 @@
   <img
     [src]="pigImage$ | ngrxPush"
     alt="napoleon"
-    [@fadeAnimation]="animationState$ | ngrxPush"
+    [@fadeAnimation]="pigImage$ | ngrxPush"
     (click)="click()"
     class="pig__images"
   />
-  @if ((currentPigStatus$ | ngrxPush) !== 'happy') {
+  @if ((pigStatus$ | ngrxPush) !== 'happy') {
   <button class="pig__actions">
-    @if ((loading$ | ngrxPush)) {
+    @if ((musicIsLoading$ | ngrxPush)) {
     <mat-progress-spinner
       mode="indeterminate"
       [strokeWidth]="10"

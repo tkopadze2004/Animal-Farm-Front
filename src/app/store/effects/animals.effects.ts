@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AnimalsService } from '../../services/animals.service';
 import * as animalActions from '../actions/animals.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, concat, delay, map, of, switchMap } from 'rxjs';
+import { getPigStatus, getPigStatusSuccess } from '../actions/pig.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AnimalsEffect {
@@ -38,6 +39,18 @@ export class AnimalsEffect {
           catchError((error) =>
             of(animalActions.feedAnimalDataFailure({ error: error.message }))
           )
+        )
+      )
+    )
+  );
+
+  feedAnimalSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(animalActions.feedAnimalSuccess),
+      switchMap(({ pigStatus }) =>
+        concat(
+          of(getPigStatusSuccess({ pigStatus })),
+          of(getPigStatus()).pipe(delay(2500))
         )
       )
     )

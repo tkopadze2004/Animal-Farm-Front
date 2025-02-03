@@ -7,11 +7,14 @@
       [name]="item.name"
       [food]="item.foodType"
       [id]="item._id"
+      (feed)="onFeedAnimal($event)"
+      [loadingFeedAnimalById]="loadingFeedAnimalById$ | ngrxPush"
+      [disableFeedComputed]="disableFeedComputed$ | ngrxPush"
     />
     }
   </div>
   <div class="cont__napoleon">
-    <app-pig-interaction [pigStatus]="pigStatus" />
+    <app-pig-interaction [pigStatus$]="pigstatus$" />
   </div>
   <div class="cont__animals">
     @for (item of animal.slice(3,6); track item) {
@@ -20,11 +23,12 @@
       [name]="item.name"
       [food]="item.foodType"
       [id]="item._id"
+      (feed)="onFeedAnimal($event)"
+      [loadingFeedAnimalById]="loadingFeedAnimalById$ | ngrxPush"
+      [disableFeedComputed]="disableFeedComputed$ | ngrxPush"
     />
     }
   </div>
 </div>
 
-} @if (success$|ngrxPush;as ss) {
-}
-
+} @if (feedAnimalsuccess$|ngrxPush;as success) { }

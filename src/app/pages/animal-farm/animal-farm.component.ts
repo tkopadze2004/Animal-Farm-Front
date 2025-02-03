@@ -1,34 +1,33 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  selectAnimalFeedLoading,
   selectAnimals,
   selectFeedAnimalSuccess,
 } from '../../store/selectors/animals.selectors';
-import { getAnimalsData } from '../../store/actions/animals.actions';
+import {
+  feedAnimal,
+  getAnimalsData,
+} from '../../store/actions/animals.actions';
 import { PushPipe } from '@ngrx/component';
 import {
-  delayWhen,
+  combineLatest,
   distinctUntilChanged,
   filter,
-  mergeMap,
+  map,
   Observable,
-  switchMap,
   tap,
-  timer,
 } from 'rxjs';
-import { IAnimal } from '../../core/models/animals.model';
+import { IAnimal, IFeedAnimalRes } from '../../core/models/animals.model';
 import { AnimalCardComponent } from '../../shared/components/animal-card/animal-card.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PigInteractionComponent } from '../../shared/components/pig-interaction/pig-interaction.component';
 import { selectPigStatus } from '../../store/selectors/pig-selector';
-import { getPigStatus } from '../../store/actions/pig.actions';
-import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-animal-farm',
@@ -45,42 +44,27 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class AnimalFarmComponent implements OnInit {
   private readonly store: Store = inject(Store);
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  public animals$: Observable<IAnimal[]> = this.store.select(selectAnimals);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
-  public pigStatus: string | null = '';
+
   public ngOnInit(): void {
     this.store.dispatch(getAnimalsData());
   }
-  public success$: Observable<string | null> = this.store
+
+  public animals$: Observable<IAnimal[]> = this.store.select(selectAnimals);
+
+  public onFeedAnimal(id: string): void {
+    this.store.dispatch(feedAnimal({ id }));
+  }
+
+  public feedAnimalsuccess$: Observable<IFeedAnimalRes> = this.store
     .select(selectFeedAnimalSuccess)
     .pipe(
       distinctUntilChanged(
         (prev, curr) =>
           prev.thanksCount === curr.thanksCount && prev.message === curr.message
       ),
-      filter(({ thanksCount, message }) => !!thanksCount && !!message),
-      tap(({ thanksCount, message }) => {
-        this.openSnackBar(message!);
-      }),
-      mergeMap(({ pigStatus }) =>
-        timer(100).pipe(
-          tap(() => {
-            this.pigStatus = pigStatus;
-            this.cdr.markForCheck();
-          }),
-          delayWhen(() => timer(2500)),
-          tap(() => this.store.dispatch(getPigStatus())),
-          switchMap(() =>
-            this.store.select(selectPigStatus).pipe(
-              tap((updatedPigStatus) => {
-                this.pigStatus = updatedPigStatus;
-                this.cdr.markForCheck();
-              })
-            )
-          )
-        )
-      )
+      filter(({ message }) => !!message),
+      tap(({ message }) => this.openSnackBar(message!))
     );
 
   private openSnackBar(message: string): void {
@@ -89,4 +73,20 @@ export class AnimalFarmComponent implements OnInit {
       panelClass: [`popup`],
     });
   }
+
+  public loadingFeedAnimalById$: Observable<string | null> = this.store.select(
+    selectAnimalFeedLoading
+  );
+
+  public pigstatus$: Observable<string | null> = this.store.select(selectPigStatus);
+
+  public disableFeedComputed$: Observable<boolean> = combineLatest([
+    this.loadingFeedAnimalById$,
+    this.pigstatus$,
+  ]).pipe(
+    map(
+      ([loadingAnimalId, pigstatus]) =>
+        !!loadingAnimalId || pigstatus === 'putin' || pigstatus === 'happy'
+    )
+  );
 }

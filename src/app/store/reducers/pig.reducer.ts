@@ -1,12 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
 import * as pigActions from '../actions/pig.actions';
-import { IPigState } from '../states/pig.states';
+import { IAnimalsState } from '../states/animals.states';
 
-const initialState: IPigState = {
-  currentStatus: null,
-  disableFeed: false,
+const initialState: IAnimalsState = {
+  pigStatus: null,
   isLoading: false,
   error: null,
+  animals: [],
+  thanksCount: 0,
+  message: null,
+  loadingAnimalById: null,
 };
 export const PigReducer = createReducer(
   initialState,
@@ -15,9 +18,9 @@ export const PigReducer = createReducer(
     isLoading: true,
     error: null,
   })),
-  on(pigActions.getPigStatusSuccess, (state, { currentStatus }) => ({
+  on(pigActions.getPigStatusSuccess, (state, { pigStatus }) => ({
     ...state,
-    currentStatus: currentStatus,
+    pigStatus: pigStatus,
     isLoading: false,
     error: null,
   })),
@@ -27,6 +30,20 @@ export const PigReducer = createReducer(
     error,
   })),
 
-  on(pigActions.disableFeeding, (state) => ({ ...state, disableFeed: true })),
-  on(pigActions.enableFeeding, (state) => ({ ...state, disableFeed: false }))
+  on(pigActions.updatePigStatus, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
+  on(pigActions.updatePigStatusSuccess, (state, { pigStatus }) => ({
+    ...state,
+    isLoading: false,
+    pigStatus,
+    error: null,
+  })),
+  on(pigActions.updatePigStatusFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
+  }))
 );

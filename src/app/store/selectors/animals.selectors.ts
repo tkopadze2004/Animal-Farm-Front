@@ -18,7 +18,7 @@ export const selectFeedAnimalSuccess = createSelector(
   })
 );
 
-export const selectLoadingAnimalId = createSelector(
+export const selectAnimalFeedLoading = createSelector(
   selectAnimalsState,
-  (state: IAnimalsState) => state.loadingAnimalId
+  (state: IAnimalsState) => state.loadingAnimalById
 );

@@ -6,7 +6,7 @@ import { Observable, from } from 'rxjs';
   providedIn: 'root',
 })
 export class AudioService {
-  private audioContext = new AudioContext();
+  private audioContext: AudioContext | null = null;
   private audioBuffer: AudioBuffer | null = null;
   private sourceNode: AudioBufferSourceNode | null = null;
   private readonly http: HttpClient = inject(HttpClient);
@@ -22,10 +22,27 @@ export class AudioService {
   }
 
   decodeAudio(arrayBuffer: ArrayBuffer): Observable<AudioBuffer> {
-    return from(this.audioContext.decodeAudioData(arrayBuffer));
+    this.ensureAudioContext();
+    return from(this.audioContext!.decodeAudioData(arrayBuffer));
   }
 
   play(buffer: AudioBuffer) {
+    this.ensureAudioContext();
+
+    if (!this.audioContext || this.audioContext.state === 'suspended') {
+      this.audioContext?.resume().then(() => this.startPlayback(buffer));
+    } else {
+      this.startPlayback(buffer);
+    }
+  }
+
+  stop() {
+    this.sourceNode?.stop();
+  }
+
+  private startPlayback(buffer: AudioBuffer) {
+    if (!this.audioContext) return;
+
     this.audioBuffer = buffer;
     this.sourceNode = this.audioContext.createBufferSource();
     this.sourceNode.buffer = this.audioBuffer;
@@ -33,7 +50,9 @@ export class AudioService {
     this.sourceNode.start();
   }
 
-  stop() {
-    this.sourceNode?.stop();
+  private ensureAudioContext() {
+    if (!this.audioContext) {
+      this.audioContext = new AudioContext();
+    }
   }
 }

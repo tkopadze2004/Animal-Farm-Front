@@ -12,14 +12,28 @@ export class PigEffect {
     this.actions$.pipe(
       ofType(pigActions.getPigStatus),
       switchMap(() =>
-        this.pigStatusService.status().pipe(
+        this.pigStatusService.getStatus().pipe(
           map((response) =>
             pigActions.getPigStatusSuccess({
-              currentStatus: response.currentStatus,
+              pigStatus: response.pigStatus,
             })
           ),
           catchError((error) =>
             of(pigActions.getPigStatusFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  updatePigStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(pigActions.updatePigStatus),
+      switchMap(({ pigStatus }) =>
+        this.pigStatusService.updateStatus(pigStatus).pipe(
+          map(() => pigActions.updatePigStatusSuccess({ pigStatus })),
+          catchError((error) =>
+            of(pigActions.updatePigStatusFailure({ error }))
           )
         )
       )
