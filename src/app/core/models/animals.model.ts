@@ -1,5 +1,3 @@
-import { IPigStatus } from './pig.model';
-
 export interface IAnimal {
   _id: string;
   name: string;

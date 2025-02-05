@@ -13,7 +13,6 @@ import {
 } from '@angular/animations';
 import { Store } from '@ngrx/store';
 import { updatePigStatus } from '../../../store/actions/pig.actions';
-import { PigStatusService } from '../../../services/pig-status.service';
 import { map, take, Observable, withLatestFrom } from 'rxjs';
 import { PushPipe } from '@ngrx/component';
 import { ImagePaths } from '../../enums/image-paths.enum';
@@ -41,16 +40,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class PigInteractionComponent {
   private readonly store = inject(Store);
-  private readonly pigStatusService = inject(PigStatusService);
 
   public musicIsLoading$: Observable<boolean> =
     this.store.select(selectMusicLoading);
-  public isPlaying = false;
-  public clicked = false;
+  public isPlaying: boolean = false;
 
   @Input() pigStatus$: Observable<string | null> = new Observable();
 
-  public click(): void {
+  public changeImage(): void {
     this.pigStatus$
       .pipe(take(1), withLatestFrom(this.musicIsLoading$))
       .subscribe(([pigStatus, isLoading]) => {

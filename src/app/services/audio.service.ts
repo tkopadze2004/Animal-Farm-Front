@@ -16,17 +16,17 @@ export class AudioService {
       ? 'http://localhost:4200/'
       : 'https://animal-farm-456c4.web.app/';
 
-  loadAudio(filePath: string): Observable<ArrayBuffer> {
+  public loadAudio(filePath: string): Observable<ArrayBuffer> {
     const url = `${this.audioBaseUrl}${filePath}`;
     return this.http.get(url, { responseType: 'arraybuffer' });
   }
 
-  decodeAudio(arrayBuffer: ArrayBuffer): Observable<AudioBuffer> {
+  public decodeAudio(arrayBuffer: ArrayBuffer): Observable<AudioBuffer> {
     this.ensureAudioContext();
     return from(this.audioContext!.decodeAudioData(arrayBuffer));
   }
 
-  play(buffer: AudioBuffer) {
+  public play(buffer: AudioBuffer): void {
     this.ensureAudioContext();
 
     if (!this.audioContext || this.audioContext.state === 'suspended') {
@@ -36,11 +36,11 @@ export class AudioService {
     }
   }
 
-  stop() {
+  stop(): void {
     this.sourceNode?.stop();
   }
 
-  private startPlayback(buffer: AudioBuffer) {
+  private startPlayback(buffer: AudioBuffer): void {
     if (!this.audioContext) return;
 
     this.audioBuffer = buffer;
@@ -50,7 +50,7 @@ export class AudioService {
     this.sourceNode.start();
   }
 
-  private ensureAudioContext() {
+  private ensureAudioContext(): void {
     if (!this.audioContext) {
       this.audioContext = new AudioContext();
     }

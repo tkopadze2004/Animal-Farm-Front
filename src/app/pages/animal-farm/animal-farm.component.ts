@@ -78,7 +78,8 @@ export class AnimalFarmComponent implements OnInit {
     selectAnimalFeedLoading
   );
 
-  public pigstatus$: Observable<string | null> = this.store.select(selectPigStatus);
+  public pigstatus$: Observable<string | null> =
+    this.store.select(selectPigStatus);
 
   public disableFeedComputed$: Observable<boolean> = combineLatest([
     this.loadingFeedAnimalById$,
