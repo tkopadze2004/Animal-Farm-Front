@@ -11,9 +11,9 @@ export class PigStatusService extends ApiService {
     return this.get<IPigStatus>('bidzina/status');
   }
 
-  updateStatus(status: string): Observable<IPigStatus> {
+  updateStatus(pigStatus: string): Observable<IPigStatus> {
     return this.post<IPigStatus>('bidzina/update', {
-      status,
+      pigStatus,
     });
   }
 }
