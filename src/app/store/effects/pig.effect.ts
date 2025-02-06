@@ -15,7 +15,7 @@ export class PigEffect {
         this.pigStatusService.getStatus().pipe(
           map((response) =>
             pigActions.getPigStatusSuccess({
-              pigStatus: response.pigStatus,
+              pigStatus: response.status,
             })
           ),
           catchError((error) =>

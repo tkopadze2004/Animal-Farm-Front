@@ -9,11 +9,8 @@ export class ApiService {
 
   private readonly http: HttpClient = inject(HttpClient);
 
-  get<T>(path: string, params?: undefined): Observable<T> {
-    const httpparams = new HttpParams({
-      fromObject: params,
-    });
-
+  get<T>(path: string, params?: HttpParams): Observable<T> {
+    const httpparams = params || new HttpParams();
     return this.http.get<T>(`${this.apiUrl}${path}`, {
       params: httpparams,
     });
