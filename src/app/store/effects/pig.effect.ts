@@ -30,7 +30,7 @@ export class PigEffect {
     this.actions$.pipe(
       ofType(pigActions.updatePigStatus),
       switchMap(({ pigStatus }) =>
-        this.pigStatusService.updateStatus(pigStatus).pipe(
+        this.pigStatusService.updatePigStatus(pigStatus).pipe(
           map(() => pigActions.updatePigStatusSuccess({ pigStatus })),
           catchError((error) =>
             of(pigActions.updatePigStatusFailure({ error }))
