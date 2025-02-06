@@ -9,7 +9,7 @@ export class ApiService {
 
   private readonly http: HttpClient = inject(HttpClient);
 
-  get<T>(path: string, params?: any): Observable<T> {
+  get<T>(path: string, params?: undefined): Observable<T> {
     const httpparams = new HttpParams({
       fromObject: params,
     });
@@ -18,11 +18,11 @@ export class ApiService {
       params: httpparams,
     });
   }
-  post<T>(path: string, body?: any): Observable<T> {
+  post<T>(path: string, body?: T): Observable<T> {
     return this.http.post<T>(`${this.apiUrl}${path}`, body);
   }
 
-  put<T>(path: string, body?: any): Observable<T> {
+  put<T>(path: string, body?: T): Observable<T> {
     return this.http.put<T>(`${this.apiUrl}${path}`, body);
   }
 
