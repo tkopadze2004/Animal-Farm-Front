@@ -24,9 +24,10 @@ export class MusicEffects {
               })
             )
           ),
-          catchError((error) =>
-            of(MusicActions.loadMusicFailure({ error: error.message }))
-          )
+           catchError(({ error }) => {
+             const musicError = error?.message || 'Failed to load audio'
+             return of(MusicActions.loadMusicFailure({ error: musicError }))
+          })
         )
       )
     )

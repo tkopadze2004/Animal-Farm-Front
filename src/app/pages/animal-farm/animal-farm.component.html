@@ -14,7 +14,7 @@
     }
   </div>
   <div class="cont__napoleon">
-    <app-pig-interaction [pigStatus$]="pigstatus$" />
+    <app-pig-interaction [pigStatus$]="pigstatus$"  />
   </div>
   <div class="cont__animals">
     @for (item of animal.slice(3,6); track item) {
@@ -30,5 +30,8 @@
     }
   </div>
 </div>
-
 } @if (feedAnimalsuccess$|ngrxPush;as success) { }
+
+@if( error$  | ngrxPush; as error){
+  {{ showError(error) }}
+}

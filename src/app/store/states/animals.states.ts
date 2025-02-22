@@ -7,4 +7,7 @@ export interface IAnimalsState extends IBaseState {
   pigStatus: string | null;
   message: string | null;
   loadingAnimalById: string | null;
+  feedError:null|string
+  statusError:null|string,
+  statusUpdateError:string|null
 }

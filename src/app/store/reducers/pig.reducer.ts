@@ -10,40 +10,49 @@ const initialState: IAnimalsState = {
   thanksCount: 0,
   message: null,
   loadingAnimalById: null,
+  feedError:null,
+  statusError:null,
+  statusUpdateError:null
 };
 export const PigReducer = createReducer(
   initialState,
   on(pigActions.getPigStatus, (state) => ({
     ...state,
     isLoading: true,
-    error: null,
+    statusError: null,
   })),
   on(pigActions.getPigStatusSuccess, (state, { pigStatus }) => ({
     ...state,
     pigStatus: pigStatus,
     isLoading: false,
-    error: null,
+    statusError: null,
   })),
-  on(pigActions.getPigStatusFailure, (state, { error }) => ({
+  on(pigActions.getPigStatusFailure, (state, { statusError }) => ({
     ...state,
     isLoading: false,
-    error,
+    statusError,
   })),
 
   on(pigActions.updatePigStatus, (state) => ({
     ...state,
     isLoading: true,
-    error: null,
+    statusUpdateError: null,
   })),
   on(pigActions.updatePigStatusSuccess, (state, { pigStatus }) => ({
     ...state,
     isLoading: false,
     pigStatus,
-    error: null,
+    statusUpdateError: null,
   })),
-  on(pigActions.updatePigStatusFailure, (state, { error }) => ({
+  on(pigActions.updatePigStatusFailure, (state, { statusUpdateError }) => ({
     ...state,
     isLoading: false,
-    error,
-  }))
+    statusUpdateError,
+  })),
+    on(pigActions.clearPigMessagess, (state) => ({
+      ...state,
+      statusError:null,
+      statusUpdateError:null
+    })),
+  
 );

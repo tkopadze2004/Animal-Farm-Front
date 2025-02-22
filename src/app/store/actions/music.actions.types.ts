@@ -4,4 +4,6 @@ export enum MusicActionsTypes {
   LOAD_MUSIC_FAILURE = '[Music] Load Music fail',
 
   STOP_MUSIC = '[Music] Stop Music',
+  CLEAR_AUDIO_MESSAGES = '[Music] Clear Messages',
+
 }

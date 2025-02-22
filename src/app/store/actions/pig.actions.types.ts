@@ -6,4 +6,6 @@ export enum PigActionsTypes {
   UPDATE_PIG_STATUS = '[Pig] Update status',
   UPDATE_PIG_STATUS_SUCCESS = '[Pig] Update status success',
   UPDATE_PIG_STATUS_FAILURE = '[Pig] Update status fail',
+
+  CLEAR_PIG_MESSAGES='[Pig] Clear Messages'
 }

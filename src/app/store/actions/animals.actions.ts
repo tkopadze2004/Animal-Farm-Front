@@ -23,5 +23,9 @@ export const feedAnimalSuccess = createAction(
 
 export const feedAnimalDataFailure = createAction(
   AnimalsActionsTypes.FEED_ANIMAL_FAILURE,
-  props<{ error: string }>()
+  props<{ feedError: string }>()
+);
+
+export const clearAnimalMessages = createAction(
+  AnimalsActionsTypes.CLEAR_ANIMALS_MESSAGES
 );

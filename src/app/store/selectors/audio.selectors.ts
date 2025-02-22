@@ -7,3 +7,8 @@ export const selectMusicLoading = createSelector(
   selectMusicState,
   (state) => state.isLoading
 );
+
+export const selectMusicFail = createSelector(
+  selectMusicState,
+  (state) => state.error
+);

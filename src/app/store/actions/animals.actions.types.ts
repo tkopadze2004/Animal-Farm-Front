@@ -6,4 +6,6 @@ export enum AnimalsActionsTypes {
   FEED_ANIMAL = '[ANIMAL] Feed ANIMAL',
   FEED_ANIMAL_SUCCESS = '[ANIMAL] Feed ANIMAL success',
   FEED_ANIMAL_FAILURE = '[ANIMAL] Feed ANIMAL fail',
+
+  CLEAR_ANIMALS_MESSAGES='[ANIMAL] Clear Messages'
 }

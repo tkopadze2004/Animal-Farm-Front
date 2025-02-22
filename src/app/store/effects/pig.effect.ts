@@ -18,10 +18,11 @@ export class PigEffect {
               pigStatus: response.status,
             })
           ),
-          catchError((error) =>
-            of(pigActions.getPigStatusFailure({ error: error.message }))
-          )
-        )
+           catchError(({ error }) => {
+            const getStatusFail = error?.message || 'Server or network error'
+            return of(pigActions.getPigStatusFailure({ statusError: getStatusFail }));
+        })
+       )
       )
     )
   );
@@ -32,11 +33,12 @@ export class PigEffect {
       switchMap(({ pigStatus }) =>
         this.pigStatusService.updatePigStatus(pigStatus).pipe(
           map(() => pigActions.updatePigStatusSuccess({ pigStatus })),
-          catchError((error) =>
-            of(pigActions.updatePigStatusFailure({ error }))
-          )
-        )
+           catchError(({ error }) => {
+            const UpdateStatusFail = error?.message || 'Server or network error'
+            return of(pigActions.updatePigStatusFailure({ statusUpdateError: UpdateStatusFail }));
+        })
       )
+     )
     )
   );
 }

@@ -13,13 +13,23 @@ body {
   top: 25px;
   left: 50%;
   transform: translateX(-50%) !important;
-  background-color: #424242;
   font-size: 18px;
   text-align: center;
   max-height: 45px;
   border-radius: 8px;
-  color: #d5d5d5;
   font-weight: 700;
+}
+
+.success {
+  background-color: #424242;
+  color: #d5d5d5;
+}
+
+
+.error{
+  background: rgb(168, 5, 5);
+  color: white;
+
 }
 
 @media (max-width: 600px) {

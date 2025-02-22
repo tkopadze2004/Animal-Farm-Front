@@ -9,6 +9,11 @@ export const selectAnimals = createSelector(
   (state: IAnimalsState) => state.animals
 );
 
+export const selectAnimalsFail = createSelector(
+  selectAnimalsState,
+  (state:IAnimalsState) => state.error
+)
+
 export const selectFeedAnimalSuccess = createSelector(
   selectAnimalsState,
   (state: IAnimalsState) => ({
@@ -21,4 +26,9 @@ export const selectFeedAnimalSuccess = createSelector(
 export const selectAnimalFeedLoading = createSelector(
   selectAnimalsState,
   (state: IAnimalsState) => state.loadingAnimalById
+);
+
+export const selectAnimalFeedFail = createSelector(
+  selectAnimalsState,
+  (state: IAnimalsState) => state.feedError
 );

@@ -17,3 +17,5 @@ export const loadMusicFailure = createAction(
 );
 
 export const stopMusic = createAction(MusicActionsTypes.STOP_MUSIC);
+
+export const clearMusicMessages = createAction(MusicActionsTypes.CLEAR_AUDIO_MESSAGES)

@@ -16,13 +16,15 @@ export class AnimalsEffect {
       switchMap(() =>
         this.animalsService.getAnimals().pipe(
           map((animals) => animalActions.getAnimalsDataSuccess({ animals })),
-          catchError((error) =>
-            of(animalActions.getAnimalsDataFailure({ error: error.message }))
-          )
+          catchError(({ error }) => {
+            const feedError = error?.message || 'Failed to fetch animals';
+            return of(animalActions.getAnimalsDataFailure({ error: feedError }));
+          })
         )
       )
     )
   );
+  
   feedAnimal$ = createEffect(() =>
     this.actions$.pipe(
       ofType(animalActions.feedAnimal),
@@ -36,14 +38,15 @@ export class AnimalsEffect {
               message: response.message,
             })
           ),
-          catchError((error) =>
-            of(animalActions.feedAnimalDataFailure({ error: error.message }))
-          )
+          catchError(({ error }) => {
+            const feedError = error?.message || 'Server or network error';
+            return of(animalActions.feedAnimalDataFailure({ feedError: feedError }));
+          })
         )
       )
     )
   );
-
+  
   feedAnimalSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(animalActions.feedAnimalSuccess),

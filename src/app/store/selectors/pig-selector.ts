@@ -7,3 +7,15 @@ export const selectPigStatus = createSelector(
   selectPigState,
   (state: IAnimalsState) => state.pigStatus
 );
+
+export const pigStatusFail = createSelector(
+  selectPigState,
+  (state:IAnimalsState)=> state.statusError
+)
+
+
+export const selectPigStatusUpdateFail = createSelector(
+  selectPigState,
+  (state: IAnimalsState) => state.statusUpdateError
+);
+

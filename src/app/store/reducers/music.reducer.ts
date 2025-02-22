@@ -31,5 +31,9 @@ export const musicReducer = createReducer(
     audioBuffer: null,
     isLoading: false,
     error: null,
+  })),
+  on(musicActions.clearMusicMessages, (state)=>({
+    ...state,
+    error:null
   }))
 );

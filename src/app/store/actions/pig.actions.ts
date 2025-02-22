@@ -8,7 +8,7 @@ export const getPigStatusSuccess = createAction(
 );
 export const getPigStatusFailure = createAction(
   PigActionsTypes.GET_PIG_STATUS_FAILURE,
-  props<{ error: string }>()
+  props<{ statusError: string }>()
 );
 
 export const updatePigStatus = createAction(
@@ -21,5 +21,9 @@ export const updatePigStatusSuccess = createAction(
 );
 export const updatePigStatusFailure = createAction(
   PigActionsTypes.UPDATE_PIG_STATUS_FAILURE,
-  props<{ error: string }>()
+  props<{ statusUpdateError: string }>()
+);
+
+export const clearPigMessagess = createAction(
+  PigActionsTypes.CLEAR_PIG_MESSAGES
 );
