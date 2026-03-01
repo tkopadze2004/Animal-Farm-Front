@@ -77,7 +77,7 @@ export class PigInteractionComponent {
     return this.pigStatus$.pipe(
       map((pigStatus) =>
         pigStatus === 'putin'
-          ? ImagePaths.Putin
+          ? ImagePaths.NapoleonSmile
           : pigStatus === 'happy'
           ? ImagePaths.NapoleonSmile
           : ImagePaths.Napoleon
